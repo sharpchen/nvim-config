@@ -1,20 +1,20 @@
 local lsp_zero = require('lsp-zero')
 -- event when attach to current file
-lsp_zero.on_attach(function(client, bufnr)
+lsp_zero.on_attach(function(_, bufnr)
     -- see :help lsp-zero-keybindings
     -- to learn the available actions
     lsp_zero.default_keymaps({ buffer = bufnr })
 end)
 
--- don't add this function in the `on_attach` callback.
--- `format_on_save` should run only once, before the language servers are active.
 local servers = {
-
     ['tsserver'] = { 'javascript', 'typescript' },
     ['rust_analyzer'] = { 'rust' },
     ['csharp_ls'] = { 'csharp' },
-    ['lua_ls'] = { 'lua' }
+    ['lua_ls'] = { 'lua' },
+    ['ast_grep'] = { 'c' },
+    -- ['harper_ls'] = { '*' }
 }
+-- `format_on_save` should run only once, before the language servers are active.
 -- format on save for servers
 lsp_zero.format_on_save({
     format_opts = {
@@ -24,7 +24,7 @@ lsp_zero.format_on_save({
     servers = servers
 })
 -- format remap for servers
-lsp_zero.format_mapping('<leader>f', {
+lsp_zero.format_mapping('<leader>k', {
     format_opts = {
         async = false,
         timeout_ms = 10000,
@@ -34,6 +34,34 @@ lsp_zero.format_mapping('<leader>f', {
 
 local cmp = require('cmp')
 local cmp_action = require('lsp-zero').cmp_action()
+
+local kind_icons = {
+    Text = '',
+    Method = '',
+    Function = '',
+    Constructor = '',
+    Field = '',
+    Variable = '',
+    Class = '',
+    Interface = '',
+    Module = '',
+    Property = '',
+    Unit = '',
+    Value = '',
+    Enum = '',
+    Keyword = '',
+    Snippet = '',
+    Color = '',
+    File = '',
+    Reference = '',
+    Folder = ' ',
+    EnumMember = ' ',
+    Constant = '',
+    Struct = ' ',
+    Event = '',
+    Operator = '',
+    TypeParameter = '',
+}
 
 cmp.setup({
     -- add source to intellisense nvim api for lua
@@ -53,21 +81,41 @@ cmp.setup({
     },
     -- add border to completion list
     window = {
-        completion = cmp.config.window.bordered(),
-        documentation = cmp.config.window.bordered(),
+        completion = {
+            border = 'solid',
+        },
+        documentation = {
+            border = 'solid'
+        },
     },
     -- confirm completion using Enter and Tab
     mapping = cmp.mapping.preset.insert({
-        ['<CR>'] = cmp.mapping.confirm({ select = false }),
+        -- ['<CR>'] = cmp.mapping.confirm({ select = false }),
         ['<Tab>'] = cmp.mapping.confirm({ select = false }),
     }),
+
+    formatting = {
+        format = function(entry, vim_item)
+            -- Kind icons
+            vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatenates the icons with the name of the item kind
+            -- Source
+            vim_item.menu = ({
+                buffer = "[Buffer]",
+                nvim_lsp = "[LSP]",
+                luasnip = "[LuaSnip]",
+                nvim_lua = "[Lua]",
+                latex_symbols = "[LaTeX]",
+            })[entry.source.name]
+            return vim_item
+        end
+    }
 })
 -- assign icons for inline error message in the left of number column
 lsp_zero.set_sign_icons({
-    error = '✘',
-    warn = '▲',
-    hint = '⚑',
-    info = '»'
+    error = '!',
+    warn = '?',
+    hint = '@',
+    info = '~'
 })
 
 -- config mason to manage language servers
@@ -75,15 +123,15 @@ require('mason').setup({
     ui = {
         icons = {
             package_installed = "✓",
-            package_pending = "➜",
-            package_uninstalled = "✗"
+            package_pending = "->",
+            package_uninstalled = "×"
         }
     }
 })
 require('mason-lspconfig').setup({
     -- Replace the language servers listed here
     -- with the ones you want to install
-    ensure_installed = { 'tsserver', 'rust_analyzer', 'csharp_ls', 'quick_lint_js' },
+    ensure_installed = { 'tsserver', 'rust_analyzer', 'csharp_ls', 'quick_lint_js', 'lua_ls', 'ast_grep' },
     handlers = {
         function(server_name)
             require('lspconfig')[server_name].setup({})

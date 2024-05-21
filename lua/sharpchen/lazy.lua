@@ -31,16 +31,14 @@ local plugins = {
             })
         end
     },
-    {
-        'nvim-treesitter/playground'
-    },
+    'nvim-treesitter/playground',
     'mbbill/undotree',
     'tpope/vim-fugitive',
-    { 'VonHeikemen/lsp-zero.nvim', branch = 'v3.x' },
-    { 'neovim/nvim-lspconfig' },
-    { 'hrsh7th/cmp-nvim-lsp' },
-    { 'hrsh7th/nvim-cmp' },
-    { 'L3MON4D3/LuaSnip' },
+    { 'VonHeikemen/lsp-zero.nvim',           branch = 'v3.x' },
+    'neovim/nvim-lspconfig',
+    'hrsh7th/cmp-nvim-lsp',
+    'hrsh7th/nvim-cmp',
+    'L3MON4D3/LuaSnip',
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
     "hrsh7th/cmp-nvim-lua",
@@ -61,48 +59,23 @@ local plugins = {
         }
     },
     'rktjmp/lush.nvim',
-    { dir = '/home/sharpchen/desktop/lush_test', lazy = true },
+    { dir = '~/desktop/Eva-Theme.nvim',      lazy = false },
     -- indent line match
-    { "lukas-reineke/indent-blankline.nvim",     main = "ibl", opts = {} },
+    { "lukas-reineke/indent-blankline.nvim", main = "ibl" },
     -- match same occurrences
     'RRethy/vim-illuminate',
-    -- explorer
     {
-        "nvim-tree/nvim-tree.lua",
-        version = "*",
-        lazy = false,
+        "nvim-neo-tree/neo-tree.nvim",
+        branch = "v3.x",
         dependencies = {
-            "nvim-tree/nvim-web-devicons",
+            "nvim-lua/plenary.nvim",
+            "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+            "MunifTanjim/nui.nvim",
+            "3rd/image.nvim",              -- Optional image support in preview window: See `# Preview Mode` for more information
         },
-        config = function()
-            require("nvim-tree").setup {
-                -- on_attach = function(bufnr)
-                --     local api = require "nvim-tree.api"
-                --
-                --     local function opts(desc)
-                --         return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
-                --     end
-                --
-                --     -- default mappings
-                --     api.config.mappings.default_on_attach(bufnr)
-                --
-                --     -- custom mappings
-                --     vim.keymap.set('n', '<C-t>', api.tree.change_root_to_parent, opts('Up'))
-                --     vim.keymap.set('n', '?', api.tree.toggle_help, opts('Help'))
-                -- end
-                view = {
-                    side = 'right'
-                }
-            }
-        end,
+        lazy = false
     },
-    {
-        'lewis6991/gitsigns.nvim',
-        config = function()
-            require('gitsigns').setup()
-        end
-
-    },
+    'lewis6991/gitsigns.nvim',
     {
         {
             "kdheepak/lazygit.nvim",
@@ -139,7 +112,7 @@ local plugins = {
             config = function()
                 -- Example mapping to toggle outline
                 vim.keymap.set("n", "<leader>o", "<cmd>Outline<CR>",
-                    { desc = "Toggle Outline" })
+                    { desc = "toggle outline" })
 
                 require("outline").setup {
                     -- Your setup opts here (leave empty to use defaults)
@@ -177,7 +150,8 @@ local plugins = {
             -- or leave it empty to use the default settings
             -- refer to the configuration section below
         }
-    }
+    },
+    'onsails/lspkind.nvim'
 }
 
 local opts = {

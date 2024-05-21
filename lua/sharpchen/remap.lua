@@ -22,16 +22,16 @@ vim.keymap.set('n', 'n', 'nzzzv')
 vim.keymap.set('n', 'N', 'Nzzzv')
 
 -- avoid replacing selected text overwrites previous copy
-vim.keymap.set('x', '<leader>p', '"_dP')
+vim.keymap.set('x', '<leader>p', '"_dP', { desc = 'pasting without overwriting copy' })
 
--- copying to system clipboard
-vim.keymap.set('n', '<leader>y', '"+y')
-vim.keymap.set('v', '<leader>y', '"+y')
-vim.keymap.set('n', '<leader>Y', '"+Y')
+-- copy to system clipboard
+vim.keymap.set('n', '<leader>y', '"+y', { desc = 'copy to system clipboard' })
+vim.keymap.set('v', '<leader>y', '"+y', { desc = 'copy to system clipboard' })
+vim.keymap.set('n', '<leader>Y', '"+Y', { desc = 'copy to system clipboard' })
 
 -- deleting without overwriting last clipboard
-vim.keymap.set('n', '<leader>d', '"_d')
-vim.keymap.set('v', '<leader>d', '"_d')
+vim.keymap.set('n', '<leader>d', '"_d', { desc = 'deleting without overwriting clipboard' })
+vim.keymap.set('v', '<leader>d', '"_d', { desc = 'deleting without overwriting clipboard' })
 
 -- switch to another file in the system using tmux
 -- vim.keymap.set('n', '<C-f>', '<cmd>silent !tmux neww tmux-sessionizer<CR>')
