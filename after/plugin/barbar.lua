@@ -1,0 +1,6 @@
+vim.keymap.set('n', '<A-c>', ':BufferClose<CR>', { desc = 'close current buffer' })
+vim.keymap.set('n', '<A-,>', ':BufferPrevious<CR>', { desc = 'move to previous buffer' })
+vim.keymap.set('n', '<A-.>', ':BufferNext<CR>', { desc = 'move to next buffer' })
+vim.keymap.set('n', '<A-a>', function()
+    vim.cmd(':BufferCloseAllButCurrent')
+end, { desc = 'close all buffers' })

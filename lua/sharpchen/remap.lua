@@ -37,4 +37,5 @@ vim.keymap.set('v', '<leader>d', '"_d', { desc = 'deleting without overwriting c
 -- vim.keymap.set('n', '<C-f>', '<cmd>silent !tmux neww tmux-sessionizer<CR>')
 
 -- replacing all occurrence of current word cursor is on by input text in command bar file-wide
-vim.keymap.set('n', '<leader>s', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+vim.keymap.set('n', '<leader>s', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
+    { desc = 'replace all occurrence of current word' })

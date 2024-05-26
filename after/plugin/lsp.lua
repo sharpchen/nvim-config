@@ -1,4 +1,7 @@
 local lsp_zero = require('lsp-zero')
+
+vim.diagnostic.config({ update_in_insert = true })
+
 -- event when attach to current file
 lsp_zero.on_attach(function(_, bufnr)
     -- see :help lsp-zero-keybindings

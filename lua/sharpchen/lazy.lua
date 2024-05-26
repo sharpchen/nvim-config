@@ -21,15 +21,6 @@ local plugins = {
     {
         'nvim-treesitter/nvim-treesitter',
         build = ":TSUpdate",
-        config = function()
-            local configs = require("nvim-treesitter.configs")
-            configs.setup({
-                ensure_installed = { "c", 'cpp', 'css', 'scss', 'asm', 'bash', 'diff', "lua", 'luap', 'luadoc', "vim", "vimdoc", "rust", "c_sharp", "typescript", "javascript", 'jsdoc', "html", 'json', 'xml', 'java', 'kotlin', 'haskell', 'sql', 'python', 'csv', 'vue', 'dockerfile', 'gitignore', 'gitcommit', 'gitattributes', 'git_config', 'go', 'query' },
-                sync_install = false,
-                highlight = { enable = true },
-                indent = { enable = true },
-            })
-        end
     },
     'nvim-treesitter/playground',
     'mbbill/undotree',
@@ -38,7 +29,10 @@ local plugins = {
     'neovim/nvim-lspconfig',
     'hrsh7th/cmp-nvim-lsp',
     'hrsh7th/nvim-cmp',
-    'L3MON4D3/LuaSnip',
+    {
+        'L3MON4D3/LuaSnip',
+        dependencies = { "rafamadriz/friendly-snippets" },
+    },
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
     "hrsh7th/cmp-nvim-lua",
@@ -51,14 +45,11 @@ local plugins = {
         lazy = false,
     },
     {
-        {
-            "folke/tokyonight.nvim",
-            lazy = false,
-            priority = 1000,
-            opts = {},
-        }
+        "folke/tokyonight.nvim",
+        lazy = false,
+        priority = 1000,
+        opts = {},
     },
-    'rktjmp/lush.nvim',
     { dir = '~/desktop/Eva-Theme.nvim',      lazy = false },
     -- indent line match
     { "lukas-reineke/indent-blankline.nvim", main = "ibl" },
@@ -77,70 +68,52 @@ local plugins = {
     },
     'lewis6991/gitsigns.nvim',
     {
-        {
-            "kdheepak/lazygit.nvim",
-            cmd = {
-                "LazyGit",
-                "LazyGitConfig",
-                "LazyGitCurrentFile",
-                "LazyGitFilter",
-                "LazyGitFilterCurrentFile",
-            },
-            -- optional for floating window border decoration
-            dependencies = {
-                "nvim-lua/plenary.nvim",
-            },
-            -- setting the keybinding for LazyGit with 'keys' is recommended in
-            -- order to load the plugin when the command is run for the first time
-            keys = {
-                { "<leader>lg", "<cmd>LazyGit<cr>", desc = "LazyGit" }
-            }
+        "kdheepak/lazygit.nvim",
+        cmd = {
+            "LazyGit",
+            "LazyGitConfig",
+            "LazyGitCurrentFile",
+            "LazyGitFilter",
+            "LazyGitFilterCurrentFile",
+        },
+        -- optional for floating window border decoration
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+        },
+        -- setting the keybinding for LazyGit with 'keys' is recommended in
+        -- order to load the plugin when the command is run for the first time
+        keys = {
+            { "<leader>lg", "<cmd>LazyGit<cr>", desc = "LazyGit" }
         }
     },
+    'NvChad/nvim-colorizer.lua',
     {
-        'norcalli/nvim-colorizer.lua'
+        "hedyhli/outline.nvim",
+        config = function()
+            -- Example mapping to toggle outline
+            vim.keymap.set("n", "<leader>o", "<cmd>Outline<CR>",
+                { desc = "toggle outline" })
+
+            require("outline").setup {
+                -- Your setup opts here (leave empty to use defaults)
+            }
+        end,
     },
     {
-        'akinsho/bufferline.nvim',
+        'rmagatti/goto-preview',
         config = function()
-            require('bufferline').setup()
+            require('goto-preview').setup()
         end
     },
+    { 'akinsho/toggleterm.nvim', version = "*", opts = {} },
     {
-        {
-            "hedyhli/outline.nvim",
-            config = function()
-                -- Example mapping to toggle outline
-                vim.keymap.set("n", "<leader>o", "<cmd>Outline<CR>",
-                    { desc = "toggle outline" })
-
-                require("outline").setup {
-                    -- Your setup opts here (leave empty to use defaults)
-                }
-            end,
+        "folke/trouble.nvim",
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+        opts = {
+            -- your configuration comes here
+            -- or leave it empty to use the default settings
+            -- refer to the configuration section below
         },
-    },
-    {
-        {
-            'rmagatti/goto-preview',
-            config = function()
-                require('goto-preview').setup {}
-            end
-        }
-    },
-    {
-        { 'akinsho/toggleterm.nvim', version = "*", opts = {} },
-    },
-    {
-        {
-            "folke/trouble.nvim",
-            dependencies = { "nvim-tree/nvim-web-devicons" },
-            opts = {
-                -- your configuration comes here
-                -- or leave it empty to use the default settings
-                -- refer to the configuration section below
-            },
-        }
     },
     {
         "folke/todo-comments.nvim",
@@ -151,12 +124,43 @@ local plugins = {
             -- refer to the configuration section below
         }
     },
-    'onsails/lspkind.nvim'
+    'onsails/lspkind.nvim',
+    {
+        'nvim-lualine/lualine.nvim',
+        dependencies = { 'nvim-tree/nvim-web-devicons' }
+    },
+    {
+        'windwp/nvim-autopairs',
+        event = "InsertEnter",
+        config = true
+    },
+    'NvChad/nvim-colorizer.lua',
+    {
+        "utilyre/barbecue.nvim",
+        name = "barbecue",
+        version = "*",
+        dependencies = {
+            "SmiteshP/nvim-navic",
+            "nvim-tree/nvim-web-devicons", -- optional dependency
+        },
+        opts = {
+        }
+    },
+    {
+        'romgrk/barbar.nvim',
+        dependencies = {
+            'lewis6991/gitsigns.nvim',     -- OPTIONAL: for git status
+            'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
+        },
+        init = function() vim.g.barbar_auto_setup = false end,
+        opts = {
+            animation = true,
+            insert_at_start = true,
+        },
+        version = '^1.0.0', -- optional: only update when a new 1.x version is released
+    },
 }
 
-local opts = {
-
-}
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -171,4 +175,4 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup(plugins, opts)
+require("lazy").setup(plugins, {})
