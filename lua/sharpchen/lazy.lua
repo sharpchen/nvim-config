@@ -59,7 +59,7 @@ local plugins = {
         priority = 1000,
         opts = {},
     },
-    { dir = '~/desktop/Eva-Theme.nvim',      lazy = false },
+    'sharpchen/Eva-Theme.nvim',
     -- indent line match
     { "lukas-reineke/indent-blankline.nvim", main = "ibl" },
     -- match same occurrences
