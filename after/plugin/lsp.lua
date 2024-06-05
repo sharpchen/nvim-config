@@ -7,6 +7,7 @@ lsp_zero.on_attach(function(_, bufnr)
     -- see :help lsp-zero-keybindings
     -- to learn the available actions
     lsp_zero.default_keymaps({ buffer = bufnr })
+    vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
 end)
 
 local servers = {
@@ -15,6 +16,7 @@ local servers = {
     ['csharp_ls'] = { 'csharp' },
     ['lua_ls'] = { 'lua' },
     ['ast_grep'] = { 'c' },
+    ['bashls'] = { 'sh', 'bashrc', 'zshrc' }
     -- ['harper_ls'] = { '*' }
 }
 -- `format_on_save` should run only once, before the language servers are active.
@@ -134,7 +136,22 @@ require('mason').setup({
 require('mason-lspconfig').setup({
     -- Replace the language servers listed here
     -- with the ones you want to install
-    ensure_installed = { 'tsserver', 'rust_analyzer', 'lua_ls', 'ast_grep', vim.loop.os_uname().sysname == "Windows_NT" and 'csharp_ls' or 'omnisharp' },
+    ensure_installed = {
+        'tsserver',
+        'rust_analyzer',
+        'lua_ls',
+        'ast_grep',
+        'bashls',
+        'jsonls',
+        'powershell_es',
+        'lemminx',
+        'yamlls',
+        'volar',
+        'tailwindcss',
+        'html',
+        'unocss',
+        vim.loop.os_uname().sysname == "Windows_NT" and 'csharp_ls' or 'omnisharp'
+    },
     handlers = {
         function(server_name)
             require('lspconfig')[server_name].setup({})
@@ -143,6 +160,40 @@ require('mason-lspconfig').setup({
             local lua_opts = lsp_zero.nvim_lua_ls()
             require('lspconfig').lua_ls.setup(lua_opts)
         end,
+        tsserver = function()
+            require('lspconfig').tsserver.setup({
+                single_file_support = false,
+                inlay_hints = { enabled = true },
+                settings = {
+                    typescript = {
+                        inlayHints = {
+                            -- You can set this to 'all' or 'literals' to enable more hints
+                            includeInlayParameterNameHints = 'all', -- 'none' | 'literals' | 'all'
+                            includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                            includeInlayFunctionParameterTypeHints = false,
+                            includeInlayVariableTypeHints = false,
+                            includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+                            includeInlayPropertyDeclarationTypeHints = false,
+                            includeInlayFunctionLikeReturnTypeHints = true,
+                            includeInlayEnumMemberValueHints = true,
+                        },
+                    },
+                    javascript = {
+                        inlayHints = {
+                            -- You can set this to 'all' or 'literals' to enable more hints
+                            includeInlayParameterNameHints = 'all', -- 'none' | 'literals' | 'all'
+                            includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                            includeInlayVariableTypeHints = false,
+                            includeInlayFunctionParameterTypeHints = false,
+                            includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+                            includeInlayPropertyDeclarationTypeHints = false,
+                            includeInlayFunctionLikeReturnTypeHints = true,
+                            includeInlayEnumMemberValueHints = true,
+                        },
+                    },
+                },
+            })
+        end
 
     },
 })
