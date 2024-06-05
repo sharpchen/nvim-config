@@ -39,3 +39,6 @@ vim.keymap.set('v', '<leader>d', '"_d', { desc = 'deleting without overwriting c
 -- replacing all occurrence of current word cursor is on by input text in command bar file-wide
 vim.keymap.set('n', '<leader>s', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
     { desc = 'replace all occurrence of current word' })
+
+vim.keymap.set('n', '<leader>/', ':set noignorecase<CR>/', { desc = 'case sensitive search' })
+vim.keymap.set('n', '/', ':set ignorecase<CR>/', { desc = 'case insensitive search' })
