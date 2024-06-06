@@ -34,3 +34,18 @@ vim.opt.isfname:append('@-@')
 -- vim.opt.listchars:append('space:⋅')
 
 vim.opt.showmode = false
+
+vim.o.list = true
+vim.o.listchars = 'nbsp:␣,eol:↵,space:·'
+vim.cmd([[2match WhiteSpaceBol /^ \+/]])
+vim.cmd('match WhiteSpaceMol / /')
+vim.api.nvim_set_hl(0, 'WhiteSpaceMol', {
+    fg = string.format('#%x', vim.api.nvim_get_hl(0, { name = 'Normal' }).bg)
+})
+vim.api.nvim_create_autocmd('ColorScheme', {
+    callback = function()
+        vim.api.nvim_set_hl(0, 'WhiteSpaceMol', {
+            fg = string.format('#%x', vim.api.nvim_get_hl(0, { name = 'Normal' }).bg)
+        })
+    end
+})
