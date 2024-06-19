@@ -11,7 +11,7 @@ lsp_zero.on_attach(function(_, bufnr)
 end)
 
 local servers = {
-    ['tsserver'] = { 'javascript', 'typescript' },
+    ['vtsls'] = { 'typescript' },
     ['rust_analyzer'] = { 'rust' },
     ['csharp_ls'] = { 'csharp' },
     ['lua_ls'] = { 'lua' },
@@ -137,7 +137,7 @@ require('mason-lspconfig').setup({
     -- Replace the language servers listed here
     -- with the ones you want to install
     ensure_installed = {
-        'tsserver',
+        'vtsls',
         'rust_analyzer',
         'lua_ls',
         'ast_grep',
