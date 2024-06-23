@@ -160,40 +160,5 @@ require('mason-lspconfig').setup({
             local lua_opts = lsp_zero.nvim_lua_ls()
             require('lspconfig').lua_ls.setup(lua_opts)
         end,
-        tsserver = function()
-            require('lspconfig').tsserver.setup({
-                single_file_support = false,
-                inlay_hints = { enabled = true },
-                settings = {
-                    typescript = {
-                        inlayHints = {
-                            -- You can set this to 'all' or 'literals' to enable more hints
-                            includeInlayParameterNameHints = 'all', -- 'none' | 'literals' | 'all'
-                            includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-                            includeInlayFunctionParameterTypeHints = false,
-                            includeInlayVariableTypeHints = false,
-                            includeInlayVariableTypeHintsWhenTypeMatchesName = false,
-                            includeInlayPropertyDeclarationTypeHints = false,
-                            includeInlayFunctionLikeReturnTypeHints = true,
-                            includeInlayEnumMemberValueHints = true,
-                        },
-                    },
-                    javascript = {
-                        inlayHints = {
-                            -- You can set this to 'all' or 'literals' to enable more hints
-                            includeInlayParameterNameHints = 'all', -- 'none' | 'literals' | 'all'
-                            includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-                            includeInlayVariableTypeHints = false,
-                            includeInlayFunctionParameterTypeHints = false,
-                            includeInlayVariableTypeHintsWhenTypeMatchesName = false,
-                            includeInlayPropertyDeclarationTypeHints = false,
-                            includeInlayFunctionLikeReturnTypeHints = true,
-                            includeInlayEnumMemberValueHints = true,
-                        },
-                    },
-                },
-            })
-        end
-
     },
 })
