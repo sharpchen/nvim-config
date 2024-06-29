@@ -33,6 +33,8 @@ vim.opt.isfname:append('@-@')
 -- vim.opt.list = true
 -- vim.opt.listchars:append('space:⋅')
 
+
+-- render listchars on colorcolumn loaded
 vim.opt.showmode = false
 
 vim.o.list = true
@@ -51,5 +53,22 @@ vim.api.nvim_create_autocmd('ColorScheme', {
         vim.api.nvim_set_hl(0, 'WhiteSpaceMol', {
             fg = string.format('#%x', vim.api.nvim_get_hl(0, { name = 'Normal' }).bg)
         })
+    end
+})
+
+
+-- diagnostic popup when cursor stays
+vim.o.updatetime = 250
+vim.api.nvim_create_autocmd('CursorHold', {
+    callback = function()
+        local opts = {
+            focusable = false,
+            close_events = { 'BufLeave', 'CursorMoved', 'InsertEnter', 'FocusLost' },
+            border = 'rounded',
+            source = 'always',
+            prefix = ' ',
+            scope = 'cursor',
+        }
+        vim.diagnostic.open_float(nil, opts)
     end
 })
