@@ -169,7 +169,9 @@ local plugins = {
         version = '^1.0.0', -- optional: only update when a new 1.x version is released
     },
     'rebelot/heirline.nvim',
-    "j-hui/fidget.nvim"
+    "j-hui/fidget.nvim",
+    'kosayoda/nvim-lightbulb',
+    'mrjones2014/smart-splits.nvim'
 }
 
 

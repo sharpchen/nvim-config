@@ -36,9 +36,9 @@ vim.opt.isfname:append('@-@')
 
 -- render listchars on colorcolumn loaded
 vim.opt.showmode = false
-
+local listchars = [[nbsp:␣,eol:↵,space:·,tab:  ]]
 vim.o.list = true
-vim.o.listchars = 'nbsp:␣,eol:↵,space:·'
+vim.o.listchars = listchars
 vim.cmd([[2match WhiteSpaceBol /^ \+/]])
 vim.cmd('match WhiteSpaceMol / /')
 vim.api.nvim_set_hl(0, 'WhiteSpaceMol', {
@@ -47,7 +47,7 @@ vim.api.nvim_set_hl(0, 'WhiteSpaceMol', {
 vim.api.nvim_create_autocmd('ColorScheme', {
     callback = function()
         vim.o.list = true
-        vim.o.listchars = 'nbsp:␣,eol:↵,space:·'
+        vim.o.listchars = listchars
         vim.cmd([[2match WhiteSpaceBol /^ \+/]])
         vim.cmd('match WhiteSpaceMol / /')
         vim.api.nvim_set_hl(0, 'WhiteSpaceMol', {

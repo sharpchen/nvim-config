@@ -14,26 +14,41 @@ local colors = {
     hint = '',
     info = ''
 }
-local colors = {
-    bright_bg = heirline_utils.get_highlight('Folded').bg,
-    bright_fg = heirline_utils.get_highlight('Folded').fg,
-    red = heirline_utils.get_highlight('DiagnosticError').fg,
-    dark_red = heirline_utils.get_highlight('DiffDelete').bg,
-    green = heirline_utils.get_highlight('String').fg,
-    blue = heirline_utils.get_highlight('Function').fg,
-    gray = heirline_utils.get_highlight('NonText').fg,
-    orange = heirline_utils.get_highlight('Constant').fg,
-    purple = heirline_utils.get_highlight('Statement').fg,
-    cyan = heirline_utils.get_highlight('Special').fg,
-    diag_warn = heirline_utils.get_highlight('DiagnosticWarn').fg,
-    diag_error = heirline_utils.get_highlight('DiagnosticError').fg,
-    diag_hint = heirline_utils.get_highlight('DiagnosticHint').fg,
-    diag_info = heirline_utils.get_highlight('DiagnosticInfo').fg,
-    git_del = heirline_utils.get_highlight('diffDeleted').fg,
-    git_add = heirline_utils.get_highlight('diffAdded').fg,
-    git_change = heirline_utils.get_highlight('diffChanged').fg,
-}
-require('heirline').load_colors(colors)
+
+
+local function setup_colors()
+    return {
+        bright_bg = heirline_utils.get_highlight("Folded").bg,
+        bright_fg = heirline_utils.get_highlight("Folded").fg,
+        red = heirline_utils.get_highlight("DiagnosticError").fg,
+        dark_red = heirline_utils.get_highlight("DiffDelete").bg,
+        green = heirline_utils.get_highlight("String").fg,
+        blue = heirline_utils.get_highlight("Function").fg,
+        gray = heirline_utils.get_highlight("NonText").fg,
+        orange = heirline_utils.get_highlight("Constant").fg,
+        purple = heirline_utils.get_highlight("Statement").fg,
+        cyan = heirline_utils.get_highlight("Special").fg,
+        diag_warn = heirline_utils.get_highlight("DiagnosticWarn").fg,
+        diag_error = heirline_utils.get_highlight("DiagnosticError").fg,
+        diag_hint = heirline_utils.get_highlight("DiagnosticHint").fg,
+        diag_info = heirline_utils.get_highlight("DiagnosticInfo").fg,
+        git_del = heirline_utils.get_highlight("diffDeleted").fg,
+        git_add = heirline_utils.get_highlight("diffAdded").fg,
+        git_change = heirline_utils.get_highlight("diffChanged").fg,
+    }
+end
+
+-- require("heirline").load_colors(setup_colors)
+-- or pass it to config.opts.colors
+
+vim.api.nvim_create_augroup("Heirline", { clear = true })
+vim.api.nvim_create_autocmd("ColorScheme", {
+    callback = function()
+        heirline_utils.on_colorscheme(setup_colors)
+    end,
+    group = "Heirline",
+})
+
 
 local ViMode = {
     -- get vim current mode, this information will be required by the provider
@@ -172,7 +187,7 @@ local FileSize = {
             return fsize .. suffix[1]
         end
         local i = math.floor((math.log(fsize) / math.log(1024)))
-        return string.format('size: %.2g%s', fsize / math.pow(1024, i), suffix[i + 1])
+        return string.format('%.2g%s', fsize / math.pow(1024, i), suffix[i + 1])
     end
 }
 local FileLastModified = {
@@ -271,7 +286,7 @@ ViMode = heirline_utils.surround({ '', '' }, 'bright_bg', { ViMode })
 require('heirline').setup({
     statusline = {
         ViMode, sp, Git, sp, align,
-        FileLastModified, sp, FileNameBlock, sp, FileSize, align,
-        LSPActive, sp, Ruler, sp, HelpFileName
+        FileNameBlock, sp, align,
+        LSPActive, sp, Ruler, sp, HelpFileName, sp, FileSize,
     },
 })

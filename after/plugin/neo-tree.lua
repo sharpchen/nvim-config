@@ -27,3 +27,9 @@ vim.keymap.set('n', '<leader>n', ':Neotree float git_status<CR>', { desc = 'show
 vim.keymap.set('n', '<leader>e', ':Neotree action=focus<CR>', { desc = 'focus neo-tree' })
 
 vim.keymap.set('n', '<leader>b', ':Neotree toggle<CR>', { desc = 'toggle neo-tree' })
+
+vim.api.nvim_create_autocmd('BufEnter', {
+    callback = function()
+        vim.cmd('Neotree action=close')
+    end
+})
