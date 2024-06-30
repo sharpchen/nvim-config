@@ -1,52 +1,38 @@
 local heirline_utils = require('heirline.utils')
 local conditions = require('heirline.conditions')
 vim.cmd('set laststatus=3') -- share single statusline for all buffers
-local colors = {
-    normal = '',
-    visual = '',
-    insert = '',
-    command = '',
-    git_deleted = '',
-    git_added = '',
-    git_modified = '',
-    warning = '',
-    error = '',
-    hint = '',
-    info = ''
-}
-
 
 local function setup_colors()
     return {
-        bright_bg = heirline_utils.get_highlight("Folded").bg,
-        bright_fg = heirline_utils.get_highlight("Folded").fg,
-        red = heirline_utils.get_highlight("DiagnosticError").fg,
-        dark_red = heirline_utils.get_highlight("DiffDelete").bg,
-        green = heirline_utils.get_highlight("String").fg,
-        blue = heirline_utils.get_highlight("Function").fg,
-        gray = heirline_utils.get_highlight("NonText").fg,
-        orange = heirline_utils.get_highlight("Constant").fg,
-        purple = heirline_utils.get_highlight("Statement").fg,
-        cyan = heirline_utils.get_highlight("Special").fg,
-        diag_warn = heirline_utils.get_highlight("DiagnosticWarn").fg,
-        diag_error = heirline_utils.get_highlight("DiagnosticError").fg,
-        diag_hint = heirline_utils.get_highlight("DiagnosticHint").fg,
-        diag_info = heirline_utils.get_highlight("DiagnosticInfo").fg,
-        git_del = heirline_utils.get_highlight("diffDeleted").fg,
-        git_add = heirline_utils.get_highlight("diffAdded").fg,
-        git_change = heirline_utils.get_highlight("diffChanged").fg,
+        bright_bg = heirline_utils.get_highlight('Folded').bg,
+        bright_fg = heirline_utils.get_highlight('Folded').fg,
+        normal = heirline_utils.get_highlight('Normal').fg,
+        dark_red = heirline_utils.get_highlight('DiffDelete').bg,
+        green = heirline_utils.get_highlight('String').fg,
+        blue = heirline_utils.get_highlight('Function').fg,
+        gray = heirline_utils.get_highlight('NonText').fg,
+        orange = heirline_utils.get_highlight('Constant').fg,
+        purple = heirline_utils.get_highlight('Statement').fg,
+        cyan = heirline_utils.get_highlight('Special').fg,
+        diag_warn = heirline_utils.get_highlight('DiagnosticWarn').fg,
+        diag_error = heirline_utils.get_highlight('DiagnosticError').fg,
+        diag_hint = heirline_utils.get_highlight('DiagnosticHint').fg,
+        diag_info = heirline_utils.get_highlight('DiagnosticInfo').fg,
+        git_del = heirline_utils.get_highlight('diffDeleted').fg,
+        git_add = heirline_utils.get_highlight('diffAdded').fg,
+        git_change = heirline_utils.get_highlight('diffChanged').fg,
     }
 end
 
--- require("heirline").load_colors(setup_colors)
+-- require('heirline').load_colors(setup_colors)
 -- or pass it to config.opts.colors
 
-vim.api.nvim_create_augroup("Heirline", { clear = true })
-vim.api.nvim_create_autocmd("ColorScheme", {
+vim.api.nvim_create_augroup('Heirline', { clear = true })
+vim.api.nvim_create_autocmd('ColorScheme', {
     callback = function()
         heirline_utils.on_colorscheme(setup_colors)
     end,
-    group = "Heirline",
+    group = 'Heirline',
 })
 
 
@@ -69,7 +55,7 @@ local ViMode = {
             c = 'COMMAND'
         },
         mode_colors = {
-            n = 'red',
+            n = 'normal',
             i = 'green',
             v = 'cyan',
             V = 'cyan',
@@ -80,8 +66,8 @@ local ViMode = {
             ['\19'] = 'purple',
             R = 'orange',
             r = 'orange',
-            ['!'] = 'red',
-            t = 'red',
+            ['!'] = 'normal',
+            t = 'normal',
         }
     },
     provider = function(self)
@@ -190,14 +176,6 @@ local FileSize = {
         return string.format('%.2g%s', fsize / math.pow(1024, i), suffix[i + 1])
     end
 }
-local FileLastModified = {
-    -- did you know? Vim is full of functions!
-    provider = function()
-        local ftime = vim.fn.getftime(vim.api.nvim_buf_get_name(0))
-        return (ftime > 0) and 'last modified: ' .. (os.date('%c', ftime))
-    end
-}
-
 -- We're getting minimalist here!
 local Ruler = {
     -- %l = current line number
@@ -271,13 +249,13 @@ local Git = {
 
 local HelpFileName = {
     condition = function()
-        return vim.bo.filetype == "help"
+        return vim.bo.filetype == 'help'
     end,
     provider = function()
         local filename = vim.api.nvim_buf_get_name(0)
-        return vim.fn.fnamemodify(filename, ":t")
+        return vim.fn.fnamemodify(filename, ':t')
     end,
-    hl = { fg = colors.blue },
+    hl = { fg = 'blue' },
 }
 
 local align = { provider = '%=' }

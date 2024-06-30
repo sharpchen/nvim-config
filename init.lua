@@ -1,1 +1,1 @@
-require('sharpchen')
+require('config')
