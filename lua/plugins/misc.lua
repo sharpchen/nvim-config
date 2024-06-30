@@ -58,6 +58,5 @@ return {
     },
     'rebelot/heirline.nvim',
     'j-hui/fidget.nvim',
-    'mrjones2014/smart-splits.nvim',
     'chrisgrieser/nvim-rip-substitute'
 }
