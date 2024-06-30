@@ -42,7 +42,7 @@ vim.keymap.set('n', '<leader>s', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><
 
 vim.keymap.set('n', '<leader>/', ':set noignorecase<CR>/', { desc = 'case sensitive search' })
 vim.keymap.set('n', '/', ':set ignorecase<CR>/', { desc = 'case insensitive search' })
-vim.keymap.set('n', '\\', ':%s/', { desc = 'replace occurrence in current file' })
+-- vim.keymap.set('n', '\\', ':%s/', { desc = 'replace occurrence in current file' })
 vim.keymap.set('n', '<leader>ca', ':lua vim.lsp.buf.code_action()<CR>', { desc = 'show code action' })
 vim.keymap.set('n', '<leader>a', 'ggVG', { desc = 'select all text' })
 vim.keymap.set('n', '<leader>x', 'Vx', { desc = 'cut current line' })

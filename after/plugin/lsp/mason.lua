@@ -25,7 +25,7 @@ require('mason-lspconfig').setup({
         'tailwindcss',
         'html',
         'unocss',
-        vim.loop.os_uname().sysname == "Windows_NT" and 'csharp_ls' or 'omnisharp'
+        'csharp_ls',
     },
     handlers = {
         function(server_name)

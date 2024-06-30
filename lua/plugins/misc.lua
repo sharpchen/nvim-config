@@ -58,5 +58,5 @@ return {
     },
     'rebelot/heirline.nvim',
     'j-hui/fidget.nvim',
-    'chrisgrieser/nvim-rip-substitute'
+    'Decodetalkers/csharpls-extended-lsp.nvim'
 }
