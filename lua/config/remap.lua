@@ -3,13 +3,17 @@ vim.g.mapleader = ' '
 -- switch back to explorer
 -- vim.keymap.set('n', '<leader>pv', vim.cmd.Ex)
 
-
 -- move selected lines up/down
 vim.keymap.set('v', '<M-j>', ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', '<M-k>', ":m '<-2<CR>gv=gv")
 vim.keymap.set('v', '<M-Down>', ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', '<M-Up>', ":m '<-2<CR>gv=gv")
 
+-- move current line up/down
+vim.keymap.set('n', '<M-j>', ':m .+1<CR>==')
+vim.keymap.set('n', '<M-k>', ':m .-2<CR>==')
+vim.keymap.set('n', '<M-Down>', ':m .+1<CR>==')
+vim.keymap.set('n', '<M-Up>', ':m .-2<CR>==')
 
 vim.keymap.set('n', 'J', 'mzJ`z')
 
@@ -37,8 +41,12 @@ vim.keymap.set('v', '<leader>d', '"_d', { desc = 'deleting without overwriting c
 -- vim.keymap.set('n', '<C-f>', '<cmd>silent !tmux neww tmux-sessionizer<CR>')
 
 -- replacing all occurrence of current word cursor is on by input text in command bar file-wide
-vim.keymap.set('n', '<leader>s', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
-    { desc = 'replace all occurrence of current word' })
+vim.keymap.set(
+  'n',
+  '<leader>s',
+  [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
+  { desc = 'replace all occurrence of current word' }
+)
 
 vim.keymap.set('n', '<leader>/', ':set noignorecase<CR>/', { desc = 'case sensitive search' })
 vim.keymap.set('n', '/', ':set ignorecase<CR>/', { desc = 'case insensitive search' })
