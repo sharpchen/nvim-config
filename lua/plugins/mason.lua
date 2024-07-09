@@ -3,6 +3,7 @@ return {
   dependencies = {
     'williamboman/mason-lspconfig.nvim',
     'WhoIsSethDaniel/mason-tool-installer.nvim',
+    'yioneko/nvim-vtsls',
   },
   config = function()
     require('mason').setup()
@@ -38,6 +39,7 @@ return {
         'stylua',
         'shfmt',
         'fsautocomplete',
+        'markdownlint-cli2',
       },
     })
   end,

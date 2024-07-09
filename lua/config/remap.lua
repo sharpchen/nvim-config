@@ -4,16 +4,21 @@ vim.g.mapleader = ' '
 -- vim.keymap.set('n', '<leader>pv', vim.cmd.Ex)
 
 -- move selected lines up/down
-vim.keymap.set('v', '<M-j>', ":m '>+1<CR>gv=gv")
-vim.keymap.set('v', '<M-k>', ":m '<-2<CR>gv=gv")
-vim.keymap.set('v', '<M-Down>', ":m '>+1<CR>gv=gv")
-vim.keymap.set('v', '<M-Up>', ":m '<-2<CR>gv=gv")
+vim.keymap.set('v', '<M-j>', ":m '>+1<CR>gv=gv", { silent = true })
+vim.keymap.set('v', '<M-k>', ":m '<-2<CR>gv=gv", { silent = true })
+vim.keymap.set('v', '<M-Down>', ":m '>+1<CR>gv=gv", { silent = true })
+vim.keymap.set('v', '<M-Up>', ":m '<-2<CR>gv=gv", { silent = true })
 
 -- move current line up/down
-vim.keymap.set('n', '<M-j>', ':m .+1<CR>==')
-vim.keymap.set('n', '<M-k>', ':m .-2<CR>==')
-vim.keymap.set('n', '<M-Down>', ':m .+1<CR>==')
-vim.keymap.set('n', '<M-Up>', ':m .-2<CR>==')
+vim.keymap.set('n', '<M-j>', ':m .+1<CR>==', { silent = true })
+vim.keymap.set('n', '<M-k>', ':m .-2<CR>==', { silent = true })
+vim.keymap.set('n', '<M-Down>', ':m .+1<CR>==', { silent = true })
+vim.keymap.set('n', '<M-Up>', ':m .-2<CR>==', { silent = true })
+
+vim.keymap.set('i', '<M-j>', '<Esc>:m .+1<CR>==gi', { silent = true })
+vim.keymap.set('i', '<M-k>', '<Esc>:m .-2<CR>==gi', { silent = true })
+vim.keymap.set('i', '<M-Down>', '<Esc>:m .+1<CR>==gi', { silent = true })
+vim.keymap.set('i', '<M-Up>', '<Esc>:m .-2<CR>==gi', { silent = true })
 
 vim.keymap.set('n', 'J', 'mzJ`z')
 

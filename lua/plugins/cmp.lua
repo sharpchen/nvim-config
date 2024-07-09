@@ -29,7 +29,7 @@ local function setup_cmd()
   local cmp = require('cmp')
   local keymap = {
     ['<Tab>'] = cmp.mapping.confirm({ select = false }),
-    ['<Down>'] = {
+    ['<C-Down>'] = {
       c = function(fallback)
         if cmp.visible() then
           cmp.select_next_item()
@@ -38,7 +38,7 @@ local function setup_cmd()
         end
       end,
     },
-    ['<Up>'] = {
+    ['<C-Up>'] = {
       c = function(fallback)
         if cmp.visible() then
           cmp.select_prev_item()
@@ -97,7 +97,7 @@ local function regular_setup()
         vim_item.menu = ({
           buffer = '[Buffer]',
           nvim_lsp = '[LSP]',
-                        luasnip = '[LuaSnip]',
+          luasnip = '[LuaSnip]',
           nvim_lua = '[Lua]',
           latex_symbols = '[LaTeX]',
         })[entry.source.name]

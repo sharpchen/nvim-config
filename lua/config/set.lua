@@ -76,4 +76,25 @@ vim.diagnostic.config({
     prefix = ' ■ ', -- Could be '●', '▎', 'x', '■', , 
   },
   update_in_insert = true,
+  underline = true,
+  float = { border = 'single' },
+})
+vim.keymap.set('n', '<leader>h', function()
+  vim.lsp.buf.hover()
+end, { desc = 'show info of the symbol under cursor' })
+
+vim.api.nvim_create_autocmd('VimEnter', {
+  pattern = '*',
+  callback = function()
+    local from = vim.uv.cwd()
+    local target
+    local args = vim.fn.argv()
+    for _, arg in ipairs(type(args) == 'table' and args or {}) do
+      if vim.fn.isdirectory(arg) then
+        target = vim.fn.fnamemodify(from .. arg:sub(1, 1) == '/' and '' or '/' .. arg, ':p')
+      end
+    end
+    vim.cmd(string.format(':cd %s', target))
+    vim.notify(string.format('cd to %s', target))
+  end,
 })
