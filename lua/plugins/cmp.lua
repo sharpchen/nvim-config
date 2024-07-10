@@ -77,6 +77,16 @@ local function regular_setup()
       { name = 'nvim_lsp' },
       { name = 'nvim_lua' },
       { name = 'path' },
+      {
+        name = 'spell',
+        option = {
+          keep_all_entries = false,
+          enable_in_context = function()
+            return true
+          end,
+          preselect_correct_word = true,
+        },
+      },
     },
     snippet = {
       expand = function(args)
@@ -116,6 +126,7 @@ return {
     'hrsh7th/cmp-buffer',
     'hrsh7th/cmp-path',
     'hrsh7th/cmp-cmdline',
+    'f3fora/cmp-spell',
     'hrsh7th/cmp-nvim-lua',
     {
       'L3MON4D3/LuaSnip',

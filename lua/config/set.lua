@@ -82,6 +82,13 @@ vim.diagnostic.config({
 vim.keymap.set('n', '<leader>h', function()
   vim.lsp.buf.hover()
 end, { desc = 'show info of the symbol under cursor' })
+vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
+  border = 'single',
+})
+
+vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+  border = 'single',
+})
 
 vim.api.nvim_create_autocmd('VimEnter', {
   pattern = '*',
@@ -92,6 +99,7 @@ vim.api.nvim_create_autocmd('VimEnter', {
     for _, arg in ipairs(type(args) == 'table' and args or {}) do
       if vim.fn.isdirectory(arg) then
         target = vim.fn.fnamemodify(from .. arg:sub(1, 1) == '/' and '' or '/' .. arg, ':p')
+        break
       end
     end
     vim.cmd(string.format(':cd %s', target))
