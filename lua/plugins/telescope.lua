@@ -12,6 +12,9 @@ return {
           require('telescope.themes').get_cursor({}),
         },
       },
+      defaults = {
+        border = false,
+      },
     })
     require('telescope').load_extension('ui-select')
 

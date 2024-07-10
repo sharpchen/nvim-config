@@ -17,12 +17,12 @@ return {
       render = 'wrapped-compact',
     })
     vim.notify = require('notify')
-    local severity = {
-      'error',
-      'warn',
-      'info',
-      'hint',
-    }
+    -- local severity = {
+    --   'error',
+    --   'warn',
+    --   'info',
+    --   'hint',
+    -- }
     -- vim.lsp.handlers['window/showMessage'] = function(_, method, params, _)
     --   vim.notify(method.message, severity[params.type])
     -- end
