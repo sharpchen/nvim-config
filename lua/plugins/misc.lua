@@ -45,5 +45,4 @@ return {
   },
   'rebelot/heirline.nvim',
   'j-hui/fidget.nvim',
-  'Decodetalkers/csharpls-extended-lsp.nvim',
 }

@@ -1,6 +1,4 @@
-require('lspconfig.configs').vtsls = require('vtsls').lspconfig
-
-require('vtsls').config({
+require('lspconfig.configs').vtsls = vim.tbl_deep_extend('keep', {
   settings = {
     typescript = {
       inlayHints = {
@@ -13,7 +11,7 @@ require('vtsls').config({
       },
     },
   },
-})
+}, require('vtsls').lspconfig.default_config)
 
 vim.lsp.commands['editor.action.showReferences'] = function(command, ctx)
   local locations = command.arguments[3]

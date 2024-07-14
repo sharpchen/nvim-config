@@ -4,6 +4,8 @@ return {
     'williamboman/mason-lspconfig.nvim',
     'WhoIsSethDaniel/mason-tool-installer.nvim',
     'yioneko/nvim-vtsls',
+    'Decodetalkers/csharpls-extended-lsp.nvim',
+    'Hoffs/omnisharp-extended-lsp.nvim',
   },
   config = function()
     require('mason').setup()
@@ -16,6 +18,19 @@ return {
         lua_ls = function()
           local lua_opts = require('lsp-zero').nvim_lua_ls()
           require('lspconfig').lua_ls.setup(lua_opts)
+        end,
+        omnisharp = function()
+          require('lspconfig').omnisharp.setup({
+            handlers = {
+              ['textDocument/definition'] = require('omnisharp_extended').definition_handler,
+              ['textDocument/typeDefinition'] = require('omnisharp_extended').type_definition_handler,
+              ['textDocument/references'] = require('omnisharp_extended').references_handler,
+              ['textDocument/implementation'] = require('omnisharp_extended').implementation_handler,
+            },
+          })
+        end,
+        taplo = function()
+          require('lspconfig').taplo.setup({})
         end,
       },
     })
@@ -34,7 +49,8 @@ return {
         'tailwindcss',
         'html',
         'unocss',
-        'csharp_ls',
+        -- 'csharp_ls',
+        -- 'omnisharp',
         'nil_ls',
         'stylua',
         'shfmt',

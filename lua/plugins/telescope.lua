@@ -13,7 +13,7 @@ return {
         },
       },
       defaults = {
-        border = false,
+        borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
       },
     })
     require('telescope').load_extension('ui-select')
@@ -26,7 +26,7 @@ return {
     vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'find in content' })
     vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'find by buffer name' })
     vim.keymap.set('n', '<leader>fc', function()
-      local cwd = vim.uv.os_uname() == 'Windows_NT' and '~/AppData/Local/nvim' or '~/.config/nvim'
+      local cwd = vim.uv.os_uname().sysname == 'Windows_NT' and '~/AppData/Local/nvim' or '~/.config/nvim'
       builtin.find_files({ cwd = cwd })
     end, { desc = 'find nvim config file' })
   end,
