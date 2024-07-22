@@ -1,17 +1,24 @@
-require('lspconfig.configs').vtsls = vim.tbl_deep_extend('keep', {
+-- require('lspconfig.configs').vtsls = require('vtsls').lspconfig.default_config
+
+require('lspconfig').vtsls.setup({
   settings = {
     typescript = {
       inlayHints = {
-        parameterNames = { enabled = 'literals' },
+        parameterNames = { enabled = 'all' },
         parameterTypes = { enabled = true },
         variableTypes = { enabled = true },
         propertyDeclarationTypes = { enabled = true },
         functionLikeReturnTypes = { enabled = true },
         enumMemberValues = { enabled = true },
       },
+      tsserver = {
+        experimental = {
+          enableProjectDiagnostics = true,
+        },
+      },
     },
   },
-}, require('vtsls').lspconfig.default_config)
+})
 
 vim.lsp.commands['editor.action.showReferences'] = function(command, ctx)
   local locations = command.arguments[3]

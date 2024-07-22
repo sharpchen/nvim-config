@@ -31,8 +31,8 @@ return {
     lsp_zero.set_sign_icons({
       error = '',
       warn = '',
-      hint = '',
-      info = '',
+      hint = '',
+      info = '',
     })
   end,
 }

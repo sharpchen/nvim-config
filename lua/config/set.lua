@@ -55,22 +55,6 @@ vim.api.nvim_create_autocmd('ColorScheme', {
   end,
 })
 
--- diagnostic popup when cursor stays
-vim.o.updatetime = 250
-vim.api.nvim_create_autocmd('CursorHold', {
-  callback = function()
-    local opts = {
-      focusable = false,
-      close_events = { 'BufLeave', 'CursorMoved', 'InsertEnter', 'FocusLost' },
-      -- border = 'rounded',
-      source = 'always',
-      prefix = ' ',
-      scope = 'cursor',
-    }
-    vim.diagnostic.open_float(nil, opts)
-  end,
-})
-
 vim.diagnostic.config({
   virtual_text = {
     prefix = ' ■ ', -- Could be '●', '▎', 'x', '■', , 
@@ -168,3 +152,12 @@ local function set_clipboard()
   }
 end
 set_clipboard()
+
+vim.api.nvim_create_autocmd('BufEnter', {
+  pattern = '*',
+  callback = function()
+    vim.opt_local.formatoptions:remove('c')
+    vim.opt_local.formatoptions:remove('r')
+    vim.opt_local.formatoptions:remove('o')
+  end,
+})

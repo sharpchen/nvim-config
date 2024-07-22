@@ -1,11 +1,7 @@
 return {
   'nvim-treesitter/playground',
-  'neovim/nvim-lspconfig',
   {
     'numToStr/Comment.nvim',
-    opts = {
-      -- add any options here
-    },
     lazy = false,
   },
   {
@@ -18,6 +14,19 @@ return {
     'sharpchen/Eva-Theme.nvim',
     lazy = false,
     priority = 1000,
+    config = function()
+      require('Eva-Theme').setup({
+        override_palette = {
+          dark = {
+            operator = require('Eva-Theme.utils').lighten(require('Eva-Theme.palette').dark_base.operator, 20),
+            background = '#14161B',
+          },
+          light = {
+            operator = require('Eva-Theme.utils').darken(require('Eva-Theme.palette').light_base.operator, 20),
+          },
+        },
+      })
+    end,
   },
   -- indent line match
   -- match same occurrences
@@ -39,10 +48,9 @@ return {
     version = '*',
     dependencies = {
       'SmiteshP/nvim-navic',
-      'nvim-tree/nvim-web-devicons', -- optional dependency
     },
     opts = {},
   },
+  'DaikyXendo/nvim-material-icon',
   'rebelot/heirline.nvim',
-  'j-hui/fidget.nvim',
 }

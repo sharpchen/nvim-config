@@ -13,7 +13,7 @@ return {
     require('toggleterm').setup({
       -- size = 10,
       start_in_insert = true,
-      direction = 'horizontal',
+      direction = 'float',
       shell = found_shell,
       -- float_opts = {
       --   border = 'curved',
