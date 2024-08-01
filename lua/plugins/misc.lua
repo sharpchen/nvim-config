@@ -20,9 +20,11 @@ return {
           dark = {
             operator = require('Eva-Theme.utils').lighten(require('Eva-Theme.palette').dark_base.operator, 20),
             background = '#14161B',
+            typeparam = require('Eva-Theme.palette').dark_base.type,
           },
           light = {
             operator = require('Eva-Theme.utils').darken(require('Eva-Theme.palette').light_base.operator, 20),
+            typeparam = require('Eva-Theme.palette').light_base.type,
           },
         },
       })

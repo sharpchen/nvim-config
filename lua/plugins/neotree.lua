@@ -24,7 +24,7 @@ return {
       'n',
       '<leader>pv',
       ':Neotree toggle current reveal_force_cwd<CR>',
-      { desc = 'neo-tree go back to project view' }
+      { desc = 'neo-tree go back to project view', silent = true }
     )
 
     vim.keymap.set('n', '<leader>n', ':Neotree float git_status<CR>', { desc = 'show floating neo-tree' })

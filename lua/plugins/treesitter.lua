@@ -24,6 +24,7 @@ return {
         'jsdoc',
         'html',
         'json',
+        'jsonc',
         'xml',
         'java',
         'kotlin',

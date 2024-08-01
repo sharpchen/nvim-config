@@ -97,13 +97,13 @@ local FileInfo = {
     condition = function()
       return vim.bo.modified
     end,
-    provider = ' ',
+    provider = '  ',
   },
   {
     condition = function()
       return not vim.bo.modifiable or vim.bo.readonly
     end,
-    provider = ' ',
+    provider = '  ',
   },
   { -- filename
     provider = function(self)
@@ -124,7 +124,7 @@ local FileInfo = {
 local FileType = {
   init = file_init,
   provider = function(self)
-    return self.icon .. ' ' .. vim.bo.filetype
+    return self.icon .. ' ' .. (vim.bo.filetype ~= '' and vim.bo.filetype or 'plain')
   end,
   hl = function(self)
     return { bg = self.icon_color, fg = 'statusline' }
@@ -133,7 +133,7 @@ local FileType = {
 local FileEncoding = {
   init = file_init,
   provider = function()
-    return '󰉿 ' .. vim.o.fileencoding
+    return '󰉢 ' .. vim.o.fileencoding
   end,
 }
 local System = {
@@ -188,7 +188,7 @@ local Diagnostic = {
 
 local LSPActive = {
   condition = conditions.lsp_attached,
-  update = { 'LspAttach', 'LspDetach' },
+  update = { 'LspAttach', 'LspDetach', 'BufEnter' },
   init = function(self)
     self.names = {}
     for _, server in pairs(vim.lsp.get_clients({ bufnr = 0 })) do
@@ -283,7 +283,7 @@ local Ruler = {
   -- %L = number of lines in the buffer
   -- %c = column number
   -- %P = percentage through file of displayed window
-  provider = ' Ln %3l, Col %2c ',
+  provider = ' Ln %l, Col %c ',
   init = file_init,
   hl = function(self)
     return { bg = 'terminal', fg = 'statusline' }
@@ -344,7 +344,7 @@ local TerminalStatusline = {
   condition = function()
     return conditions.buffer_matches({ buftype = { 'terminal' } })
   end,
-  hl = { bg = 'command' },
+  hl = { bg = 'command', fg = 'statusline' },
   -- Quickly add a condition to the ViMode to only show it when buffer is active!
   { condition = conditions.is_active, ViMode, sp },
   FileType,
@@ -354,6 +354,7 @@ local TerminalStatusline = {
 }
 
 require('heirline').setup({
+  update = { 'BufWritePost' },
   statusline = {
     hl = function()
       if conditions.is_active() then
