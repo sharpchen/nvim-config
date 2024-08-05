@@ -2,6 +2,8 @@ local utils = require('heirline.utils')
 local conditions = require('heirline.conditions')
 local myutils = require('utils.heirline-utils')
 vim.cmd('set laststatus=3') -- share single statusline for all buffers
+vim.cmd('au VimLeavePre * set stl=')
+vim.cmd('au VimLeavePre * au! Heirline_update_autocmds')
 
 local sharp_delimiters = { '', '' }
 local rounded_delimiters = { '', '' }
@@ -27,9 +29,9 @@ local function setup_colors()
     diag_error = utils.get_highlight('DiagnosticError').fg,
     diag_hint = utils.get_highlight('DiagnosticHint').fg,
     diag_info = utils.get_highlight('DiagnosticInfo').fg,
-    git_del = utils.get_highlight('DiffDelete').fg,
-    git_add = utils.get_highlight('DiffAdd').fg,
-    git_modified = utils.get_highlight('DiffChange').fg,
+    git_del = utils.get_highlight('DiffDelete').fg or utils.get_highlight('DiagnosticError').fg,
+    git_add = utils.get_highlight('DiffAdd').fg or utils.get_highlight('String').fg,
+    git_modified = utils.get_highlight('DiffChange').fg or utils.get_highlight('Keyword').fg,
     git_branch = utils.get_highlight('Conditional').fg,
   }
 end
@@ -124,7 +126,7 @@ local FileInfo = {
 local FileType = {
   init = file_init,
   provider = function(self)
-    return self.icon .. ' ' .. (vim.bo.filetype ~= '' and vim.bo.filetype or 'plain')
+    return self.icon .. ' ' .. (vim.bo.filetype ~= '' and vim.bo.filetype or 'plain') .. ' '
   end,
   hl = function(self)
     return { bg = self.icon_color, fg = 'statusline' }
@@ -308,9 +310,8 @@ local DefaultStatusLine = {
   sp,
   System,
   sp,
-  myutils.auto_surround(rounded_delimiters, FileType),
-  sp,
-  myutils.auto_surround({ delimiter.left, nil }, Ruler),
+  myutils.auto_surround({ rounded_delimiters[1], nil }, FileType),
+  -- myutils.auto_surround({ delimiter.left, nil }, Ruler),
 }
 local InactiveStatusLine = {
   condition = conditions.is_not_active,
@@ -326,10 +327,13 @@ local SpecialStatusline = {
       filetype = { '^git.*', 'fugitive' },
     })
   end,
-  myutils.auto_surround(rounded_delimiters, FileType),
+  myutils.auto_surround({ nil, delimiter.right }, ViMode),
   sp,
   HelpFileName,
   align,
+  System,
+  sp,
+  myutils.auto_surround({ rounded_delimiters[1], nil }, FileType),
 }
 local TerminalName = {
   -- we could add a condition to check that buftype == 'terminal'
@@ -338,19 +342,18 @@ local TerminalName = {
     local tname, _ = vim.api.nvim_buf_get_name(0):gsub('.*:', '')
     return ' ' .. tname
   end,
-  hl = { fg = 'blue', bold = true },
+  hl = { fg = 'terminal', bold = true },
 }
 local TerminalStatusline = {
   condition = function()
     return conditions.buffer_matches({ buftype = { 'terminal' } })
   end,
-  hl = { bg = 'command', fg = 'statusline' },
+  hl = { bg = 'statusline', fg = 'statusline' },
   -- Quickly add a condition to the ViMode to only show it when buffer is active!
-  { condition = conditions.is_active, ViMode, sp },
-  FileType,
-  sp,
+  { condition = conditions.is_active, myutils.auto_surround({ nil, rounded_delimiters[2] }, ViMode), sp },
   TerminalName,
   align,
+  System,
 }
 
 require('heirline').setup({

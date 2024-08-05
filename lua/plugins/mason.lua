@@ -52,12 +52,17 @@ return {
         'unocss',
         -- 'csharp_ls',
         -- 'omnisharp',
-        'nil_ls',
         'stylua',
         'shfmt',
         'fsautocomplete',
         'markdownlint-cli2',
       },
+    })
+
+    require('lspconfig').nixd.setup({
+      on_init = function(client)
+        client.server_capabilities.semanticTokensProvider = nil
+      end,
     })
   end,
 }

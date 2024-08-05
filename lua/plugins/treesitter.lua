@@ -44,6 +44,8 @@ return {
         'yaml',
         'regex',
         'nix',
+        'markdown',
+        'markdown_inline',
       },
       sync_install = false,
       highlight = { enable = true, additional_vim_regex_highlighting = true },

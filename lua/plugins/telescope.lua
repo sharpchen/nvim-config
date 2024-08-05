@@ -11,12 +11,34 @@ return {
         ['ui-select'] = {
           require('telescope.themes').get_cursor({}),
         },
+        zoxide = {
+          prompt_title = '[ Walking on the shoulders of TJ ]',
+          mappings = {
+            default = {
+              after_action = function(selection)
+                print('Update to (' .. selection.z_score .. ') ' .. selection.path)
+              end,
+            },
+            ['<C-s>'] = {
+              before_action = function(selection)
+                print('before C-s')
+              end,
+              action = function(selection)
+                vim.cmd.edit(selection.path)
+              end,
+            },
+            -- Opens the selected entry in a new split
+            ['<C-q>'] = { action = require('telescope._extensions.zoxide.utils').create_basic_command('split') },
+          },
+        },
       },
       defaults = {
         borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
       },
     })
+
     require('telescope').load_extension('ui-select')
+    require('telescope').load_extension('zoxide')
 
     local builtin = require('telescope.builtin')
     vim.keymap.set('n', '<leader>ff', function()

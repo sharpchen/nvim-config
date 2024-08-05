@@ -11,16 +11,10 @@ return {
       end
     end
     require('toggleterm').setup({
-      -- size = 10,
       start_in_insert = true,
-      direction = 'float',
+      open_mapping = '<C-\\>',
       shell = found_shell,
-      -- float_opts = {
-      --   border = 'curved',
-      --   width = math.ceil(vim.o.columns * 0.8),
-      --   height = math.ceil(vim.o.columns * 0.2),
-      -- },
+      direction = 'float',
     })
-    vim.keymap.set('n', '<leader>`', ':ToggleTerm<CR>', { desc = 'toggle terminal', silent = true })
   end,
 }

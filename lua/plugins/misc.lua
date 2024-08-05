@@ -1,10 +1,6 @@
 return {
   'nvim-treesitter/playground',
   {
-    'numToStr/Comment.nvim',
-    lazy = false,
-  },
-  {
     'folke/tokyonight.nvim',
     lazy = false,
     priority = 1000,
