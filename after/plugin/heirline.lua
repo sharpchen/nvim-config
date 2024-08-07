@@ -373,3 +373,8 @@ require('heirline').setup({
     fallthrough = false,
   },
 })
+
+vim.keymap.set('n', '<leader><leader>h', function()
+  local Path = require('plenary.path')
+  vim.cmd(('source %s'):format(Path:new({ vim.fn.stdpath('config'), 'after/plugin/heirline.lua' })))
+end)

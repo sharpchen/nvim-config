@@ -10,6 +10,7 @@ return {
     'sharpchen/Eva-Theme.nvim',
     lazy = false,
     priority = 1000,
+    event = 'VimEnter',
     config = function()
       require('Eva-Theme').setup({
         override_palette = {

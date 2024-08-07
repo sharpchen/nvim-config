@@ -35,7 +35,7 @@ vim.opt.isfname:append('@-@')
 
 -- render listchars on colorcolumn loaded
 vim.opt.showmode = false
-local listchars = [[nbsp:␣,eol:↵,space:·,tab:  ]]
+local listchars = [[nbsp:␣,eol:↵,space:·,tab:» ]]
 vim.o.list = true
 vim.o.listchars = listchars
 vim.cmd([[2match WhiteSpaceBol /^ \+/]])
@@ -100,5 +100,12 @@ vim.api.nvim_create_autocmd('BufEnter', {
     vim.opt_local.formatoptions:remove('c')
     vim.opt_local.formatoptions:remove('r')
     vim.opt_local.formatoptions:remove('o')
+  end,
+})
+
+vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+  pattern = { '*.axaml', '*.xaml' },
+  callback = function()
+    vim.bo.filetype = 'xml'
   end,
 })

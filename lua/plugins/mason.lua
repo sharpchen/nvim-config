@@ -35,6 +35,11 @@ return {
         end,
       },
     })
+    require('lspconfig').nixd.setup({
+      on_init = function(client)
+        client.server_capabilities.semanticTokensProvider = nil
+      end,
+    })
     require('mason-tool-installer').setup({
       ensure_installed = {
         'vtsls',
@@ -56,13 +61,8 @@ return {
         'shfmt',
         'fsautocomplete',
         'markdownlint-cli2',
+        'actionlint',
       },
-    })
-
-    require('lspconfig').nixd.setup({
-      on_init = function(client)
-        client.server_capabilities.semanticTokensProvider = nil
-      end,
     })
   end,
 }

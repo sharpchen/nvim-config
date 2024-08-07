@@ -12,7 +12,7 @@ return {
     end
     require('toggleterm').setup({
       start_in_insert = true,
-      open_mapping = '<C-\\>',
+      open_mapping = [[<C-\>]],
       shell = found_shell,
       direction = 'float',
     })
