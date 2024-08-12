@@ -3,6 +3,38 @@ return {
   build = ':TSUpdate',
   config = function()
     local configs = require('nvim-treesitter.configs')
+
+    local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
+    parser_config.powershell = {
+      install_info = {
+        url = 'https://github.com/airbus-cert/tree-sitter-powershell/',
+        files = { 'src/parser.c', 'src/scanner.c' },
+        branch = 'main',
+        generate_requires_npm = false,
+        requires_generate_from_grammar = false,
+      },
+      filetype = 'ps1',
+    }
+    parser_config.fsharp = {
+      install_info = {
+        url = 'https://github.com/ionide/tree-sitter-fsharp',
+        branch = 'main',
+        files = { 'src/scanner.c', 'src/parser.c' },
+      },
+      requires_generate_from_grammar = false,
+      filetype = 'fsharp',
+    }
+    parser_config.csharp = {
+      install_info = {
+        url = 'https://github.com/tree-sitter/tree-sitter-c-sharp',
+        branch = 'master',
+        files = { 'src/scanner.c', 'src/parser.c' },
+      },
+      requires_generate_from_grammar = false,
+      filetype = 'cs',
+    }
+    vim.treesitter.language.register('xml', { 'axaml', 'xaml' })
+
     configs.setup({
       ensure_installed = {
         'c',
@@ -18,7 +50,6 @@ return {
         'vim',
         'vimdoc',
         'rust',
-        'c_sharp',
         'typescript',
         'javascript',
         'jsdoc',
@@ -51,17 +82,5 @@ return {
       highlight = { enable = true, additional_vim_regex_highlighting = true },
       indent = { enable = true },
     })
-
-    local treesitter_parser_config = require('nvim-treesitter.parsers').get_parser_configs()
-    treesitter_parser_config.powershell = {
-      install_info = {
-        url = 'https://github.com/airbus-cert/tree-sitter-powershell/',
-        files = { 'src/parser.c', 'src/scanner.c' },
-        branch = 'main',
-        generate_requires_npm = false,
-        requires_generate_from_grammar = false,
-      },
-      filetype = 'ps1',
-    }
   end,
 }

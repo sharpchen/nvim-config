@@ -22,6 +22,9 @@ return {
         end,
         omnisharp = function()
           require('lspconfig').omnisharp.setup({
+            on_init = function(client)
+              client.server_capabilities.semanticTokensProvider = nil
+            end,
             handlers = {
               ['textDocument/definition'] = require('omnisharp_extended').definition_handler,
               ['textDocument/typeDefinition'] = require('omnisharp_extended').type_definition_handler,

@@ -16,5 +16,6 @@ return {
       shell = found_shell,
       direction = 'float',
     })
+    -- vim.keymap.set({ 'n', 't', 'i' }, '<C-\\>', '<cmd>ToggleTerm<CR>')
   end,
 }

@@ -18,14 +18,7 @@ return {
       render = 'wrapped-compact',
     })
     vim.notify = require('notify')
-    -- local severity = {
-    --   'error',
-    --   'warn',
-    --   'info',
-    --   'hint',
-    -- }
-    -- vim.lsp.handlers['window/showMessage'] = function(_, method, params, _)
-    --   vim.notify(method.message, severity[params.type])
-    -- end
+
+    vim.keymap.set('n', '<leader>fn', ':Telescope notify<CR>', { silent = true, desc = 'open notify' })
   end,
 }

@@ -6,12 +6,10 @@ return {
   init = function()
     vim.g.barbar_auto_setup = false
 
-    vim.keymap.set('n', '<A-c>', ':BufferClose<CR>', { desc = 'close current buffer' })
-    vim.keymap.set('n', '<A-,>', ':BufferPrevious<CR>', { desc = 'move to previous buffer' })
-    vim.keymap.set('n', '<A-.>', ':BufferNext<CR>', { desc = 'move to next buffer' })
-    vim.keymap.set('n', '<A-a>', function()
-      vim.cmd(':BufferCloseAllButCurrent')
-    end, { desc = 'close all buffers' })
+    vim.keymap.set('n', '<A-c>', ':BufferClose<CR>', { desc = 'close current buffer', silent = true })
+    vim.keymap.set('n', '<A-,>', ':BufferPrevious<CR>', { desc = 'move to previous buffer', silent = true })
+    vim.keymap.set('n', '<A-.>', ':BufferNext<CR>', { desc = 'move to next buffer', silent = true })
+    vim.keymap.set('n', '<A-a>', ':BufferCloseAllButCurrent<CR>', { desc = 'close all buffers', silent = true })
   end,
   opts = {
     animation = true,

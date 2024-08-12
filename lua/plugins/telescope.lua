@@ -6,6 +6,7 @@ return {
     'nvim-telescope/telescope-ui-select.nvim',
   },
   config = function()
+    local fb_actions = require('telescope').extensions.file_browser.actions
     require('telescope').setup({
       extensions = {
         ['ui-select'] = {
@@ -31,6 +32,13 @@ return {
             ['<C-q>'] = { action = require('telescope._extensions.zoxide.utils').create_basic_command('split') },
           },
         },
+        file_browser = {
+          mappings = {
+            ['i'] = {
+              ['<A-a>'] = fb_actions.create,
+            },
+          },
+        },
       },
       defaults = {
         borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
@@ -46,7 +54,6 @@ return {
     end, { desc = 'find in all files in project' })
     vim.keymap.set('n', '<leader>fpf', builtin.git_files, { desc = 'find in all tracked files' })
     vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'find in content' })
-    vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'find by buffer name' })
     vim.keymap.set('n', '<leader>fc', function()
       local config = vim.uv.os_uname().sysname == 'Windows_NT' and '~/AppData/Local/nvim' or '~/.config/nvim'
       builtin.find_files({ cwd = config })

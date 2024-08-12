@@ -8,7 +8,7 @@ return {
     require('null-ls').setup({
       sources = {
         null_ls.builtins.code_actions.gitrebase,
-        null_ls.builtins.code_actions.gitsigns,
+        -- null_ls.builtins.code_actions.gitsigns,
         --#region go specific
         null_ls.builtins.code_actions.gomodifytags,
         null_ls.builtins.code_actions.impl,

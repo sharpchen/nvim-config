@@ -6,27 +6,6 @@ return {
     priority = 1000,
     opts = {},
   },
-  {
-    'sharpchen/Eva-Theme.nvim',
-    lazy = false,
-    priority = 1000,
-    event = 'VimEnter',
-    config = function()
-      require('Eva-Theme').setup({
-        override_palette = {
-          dark = {
-            operator = require('Eva-Theme.utils').lighten(require('Eva-Theme.palette').dark_base.operator, 20),
-            background = '#14161B',
-            typeparam = require('Eva-Theme.palette').dark_base.type,
-          },
-          light = {
-            operator = require('Eva-Theme.utils').darken(require('Eva-Theme.palette').light_base.operator, 20),
-            typeparam = require('Eva-Theme.palette').light_base.type,
-          },
-        },
-      })
-    end,
-  },
   -- indent line match
   -- match same occurrences
   'RRethy/vim-illuminate',

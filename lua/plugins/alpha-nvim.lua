@@ -52,7 +52,7 @@ return {
       },
       {
         type = 'text',
-        val = '𝙾𝚑 𝚝𝚑𝚎 𝚓𝚘𝚢 𝚘𝚏 𝚑𝚊𝚟𝚒𝚗𝚐 𝚢𝚘𝚞𝚛 𝚘𝚠𝚗 𝚌𝚞𝚜𝚝𝚘𝚖 𝚝𝚎𝚡𝚝 𝚎𝚍𝚒𝚝𝚘𝚛 :)',
+        val = 'Hello :)',
         opts = { hl = 'NeovimDashboardUsername', shrink_margin = false, position = 'center' },
       },
     }

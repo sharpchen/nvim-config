@@ -27,11 +27,9 @@ vim.opt.termguicolors = true
 vim.opt.scrolloff = 8
 vim.opt.signcolumn = 'yes'
 vim.opt.isfname:append('@-@')
-
+vim.opt.guicursor =
+  'n-v-sm:block-blinkwait700-blinkoff400-blinkon250-Cursor,ci-ve:ver25,r-cr-o:hor20,i-c:ver100-blinkwait700-blinkoff400-blinkon250-Cursor/lCursor'
 -- vim.opt.colorcolumn = '80'
-
--- vim.opt.list = true
--- vim.opt.listchars:append('space:⋅')
 
 -- render listchars on colorcolumn loaded
 vim.opt.showmode = false
@@ -75,10 +73,11 @@ vim.api.nvim_create_autocmd('VimEnter', {
   pattern = '*',
   callback = function()
     local from = vim.uv.cwd()
+    ---@type string
     local target
     local args = vim.fn.argv()
     for _, arg in ipairs(type(args) == 'table' and args or {}) do
-      if vim.fn.isdirectory(arg) then
+      if vim.fn.isdirectory(arg) == 1 then
         target = vim.fn.fnamemodify(from .. arg:sub(1, 1) == '/' and '' or '/' .. arg, ':p')
         if target:sub(1, 1) == '/' then
           target = target:sub(2)
@@ -103,9 +102,15 @@ vim.api.nvim_create_autocmd('BufEnter', {
   end,
 })
 
-vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
-  pattern = { '*.axaml', '*.xaml' },
-  callback = function()
-    vim.bo.filetype = 'xml'
-  end,
+vim.filetype.add({
+  extension = {
+    axaml = 'axaml',
+    xaml = 'xaml',
+  },
 })
+
+vim.keymap.set('n', '<leader>l', function()
+  local curline = vim.fn.line('.')
+  local lang = vim.treesitter.get_parser():language_for_range({ curline, 0, curline, 0 }):lang()
+  vim.notify(lang)
+end)
