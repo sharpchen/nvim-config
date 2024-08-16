@@ -60,6 +60,7 @@ local ViMode = {
       r = 'REPLACE',
       ['\22'] = 'VBLOCK',
       ['\22s'] = 'VBLOCK',
+      s = 'SELECT',
     },
     mode_colors = {
       n = 'normal',
@@ -71,7 +72,7 @@ local ViMode = {
       R = 'replace',
       r = 'replace',
       ['\22'] = 'vline',
-      -- s = 'purple',
+      s = 'visual',
       -- S = 'purple',
       -- ['\19'] = 'purple',
       ['!'] = 'normal',

@@ -82,6 +82,7 @@ end
 
 local function regular_setup()
   local cmp = require('cmp')
+  local luasnip = require('luasnip')
   cmp.setup({
     sources = {
       { name = 'nvim_lsp' },
@@ -111,7 +112,25 @@ local function regular_setup()
       completeopt = 'menu,menuone,noinsert',
     },
     mapping = cmp.mapping.preset.insert({
-      ['<Tab>'] = cmp.mapping.confirm({ select = false }),
+      ['<Tab>'] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.confirm({ select = false })
+        elseif luasnip.locally_jumpable(1) then
+          luasnip.jump(1)
+        else
+          fallback()
+        end
+      end, { 'i', 's' }),
+
+      ['<S-Tab>'] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.select_prev_item()
+        elseif luasnip.locally_jumpable(-1) then
+          luasnip.jump(-1)
+        else
+          fallback()
+        end
+      end, { 'i', 's' }),
     }),
     formatting = {
       fields = { 'kind', 'abbr', 'menu' },

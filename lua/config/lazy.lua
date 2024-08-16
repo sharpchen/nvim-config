@@ -16,4 +16,7 @@ require('lazy').setup({
     url_format = 'git@github.com:%s.git',
   },
   spec = { import = 'plugins' },
+  ui = {
+    border = 'none',
+  },
 })
