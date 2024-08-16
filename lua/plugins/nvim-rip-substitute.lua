@@ -13,9 +13,11 @@ return {
   },
   opts = {
     popupWin = {
-      matchCountHlGroup = 'Function',
+      matchCountHlGroup = '@variable.parameter',
+      noMatchHlGroup = '@variable.member',
       position = 'top',
       hideSearchReplaceLabels = true,
+      border = 'rounded',
     },
   },
 }

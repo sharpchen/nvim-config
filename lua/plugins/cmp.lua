@@ -25,37 +25,6 @@ local kind_icons = {
   Operator = '',
   TypeParameter = '',
 }
-local lspkind_comparator = function(conf)
-  local lsp_types = require('cmp.types').lsp
-  return function(entry1, entry2)
-    if entry1.source.name ~= 'nvim_lsp' then
-      if entry2.source.name == 'nvim_lsp' then
-        return false
-      else
-        return nil
-      end
-    end
-    local kind1 = lsp_types.CompletionItemKind[entry1:get_kind()]
-    local kind2 = lsp_types.CompletionItemKind[entry2:get_kind()]
-    if kind1 == 'Variable' and entry1:get_completion_item().label:match('%w*=') then
-      kind1 = 'Parameter'
-    end
-    if kind2 == 'Variable' and entry2:get_completion_item().label:match('%w*=') then
-      kind2 = 'Parameter'
-    end
-
-    local priority1 = conf.kind_priority[kind1] or 0
-    local priority2 = conf.kind_priority[kind2] or 0
-    if priority1 == priority2 then
-      return nil
-    end
-    return priority2 < priority1
-  end
-end
-
-local label_comparator = function(entry1, entry2)
-  return entry1.completion_item.label < entry2.completion_item.label
-end
 local function setup_cmd()
   local cmp = require('cmp')
   local keymap = {
@@ -83,6 +52,16 @@ local function setup_cmd()
     mapping = cmp.mapping.preset.cmdline(keymap),
     sources = {
       { name = 'buffer' },
+      {
+        name = 'spell',
+        option = {
+          keep_all_entries = false,
+          enable_in_context = function()
+            return true
+          end,
+          preselect_correct_word = true,
+        },
+      },
     },
   })
   -- `:` cmdline setup.
@@ -108,6 +87,9 @@ local function regular_setup()
       { name = 'nvim_lsp' },
       { name = 'nvim_lua' },
       { name = 'path' },
+      { name = 'luasnip' },
+      { name = 'buffer' },
+      { name = 'nvim_lsp_signature_help' },
       {
         name = 'spell',
         option = {
@@ -138,10 +120,10 @@ local function regular_setup()
         local kind = vim_item.kind
         vim_item.kind = kind_icons[vim_item.kind] .. ' '
         vim_item.menu = ({
-          buffer = '[Buffer]',
-          nvim_lsp = '[LSP]',
-          luasnip = '[LuaSnip]',
-          nvim_lua = '[Lua]',
+          buffer = '[buf]',
+          nvim_lsp = '[lsp]',
+          luasnip = '[luasnip]',
+          nvim_lua = '[lua]',
           latex_symbols = '[LaTeX]',
         })[entry.source.name]
         vim_item.menu = kind:lower()
@@ -150,38 +132,27 @@ local function regular_setup()
     },
     sorting = {
       comparators = {
-        lspkind_comparator({
-          kind_priority = {
-            Parameter = 14,
-            Variable = 12,
-            Field = 11,
-            Property = 11,
-            Constant = 10,
-            Enum = 10,
-            EnumMember = 10,
-            Event = 10,
-            Function = 10,
-            Method = 10,
-            Operator = 10,
-            Reference = 10,
-            Struct = 10,
-            File = 8,
-            Folder = 8,
-            Class = 5,
-            Color = 5,
-            Module = 5,
-            Keyword = 2,
-            Constructor = 1,
-            Interface = 1,
-            Snippet = 0,
-            Text = 1,
-            TypeParameter = 1,
-            Unit = 1,
-            Value = 1,
-          },
-        }),
-        label_comparator,
+        cmp.config.compare.exact,
+        cmp.config.compare.recently_used,
+        cmp.config.compare.length,
+        cmp.config.compare.offset,
+        cmp.config.compare.score,
+        cmp.config.compare.kind,
       },
+    },
+    experimental = {
+      ghost_text = true,
+    },
+    window = {
+      completion = cmp.config.window.bordered(),--[[ {
+        border = vim
+          .iter({ '┌', '─', '┐', '│', '┘', '─', '└', '│' })
+          :map(function(x)
+            return { x, 'FloatBorder' }
+          end)
+          :totable(),
+      }, ]]
+      documentation = false,
     },
   })
 end
@@ -197,12 +168,15 @@ return {
     'hrsh7th/cmp-cmdline',
     'f3fora/cmp-spell',
     'hrsh7th/cmp-nvim-lua',
+    'saadparwaiz1/cmp_luasnip',
+    'hrsh7th/cmp-nvim-lsp-signature-help',
     {
       'L3MON4D3/LuaSnip',
       dependencies = { 'rafamadriz/friendly-snippets' },
     },
   },
   config = function()
+    require('luasnip.loaders.from_vscode').lazy_load()
     regular_setup()
     setup_cmd()
   end,

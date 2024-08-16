@@ -24,7 +24,7 @@ return {
       requires_generate_from_grammar = false,
       filetype = 'fsharp',
     }
-    parser_config.csharp = {
+    --[[ parser_config.csharp = {
       install_info = {
         url = 'https://github.com/tree-sitter/tree-sitter-c-sharp',
         branch = 'master',
@@ -32,7 +32,7 @@ return {
       },
       requires_generate_from_grammar = false,
       filetype = 'cs',
-    }
+    } ]]
     vim.treesitter.language.register('xml', { 'axaml', 'xaml' })
 
     configs.setup({

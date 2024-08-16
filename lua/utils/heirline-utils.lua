@@ -1,5 +1,4 @@
 local M = {}
-
 function M.auto_surround(delimiters, component)
   local child_excluded = {}
   vim
@@ -14,20 +13,26 @@ function M.auto_surround(delimiters, component)
     vim.tbl_extend('keep', {
       provider = delimiters[1] or '',
       hl = function(self)
-        return {
-          bg = type(component.hl) == 'function' and component.hl(self).fg or component.hl.fg,
-          fg = type(component.hl) == 'function' and component.hl(self).bg or component.hl.bg,
-        }
+        local fg, bg
+        if type(component.hl) == 'function' then
+          fg, bg = component.hl(self).bg, component.hl(self).fg
+        elseif type(component.hl) == 'table' then
+          fg, bg = component.hl.bg, component.hl.fg
+        end
+        return { fg = fg, bg = bg }
       end,
     }, child_excluded),
     component,
     vim.tbl_extend('keep', {
       provider = delimiters[2] or '',
       hl = function(self)
-        return {
-          bg = type(component.hl) == 'function' and component.hl(self).fg or component.hl.fg,
-          fg = type(component.hl) == 'function' and component.hl(self).bg or component.hl.bg,
-        }
+        local fg, bg
+        if type(component.hl) == 'function' then
+          fg, bg = component.hl(self).bg, component.hl(self).fg
+        elseif type(component.hl) == 'table' then
+          fg, bg = component.hl.bg, component.hl.fg
+        end
+        return { fg = fg, bg = bg }
       end,
     }, child_excluded),
   }

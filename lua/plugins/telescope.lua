@@ -6,7 +6,6 @@ return {
     'nvim-telescope/telescope-ui-select.nvim',
   },
   config = function()
-    local fb_actions = require('telescope').extensions.file_browser.actions
     require('telescope').setup({
       extensions = {
         ['ui-select'] = {
@@ -32,16 +31,9 @@ return {
             ['<C-q>'] = { action = require('telescope._extensions.zoxide.utils').create_basic_command('split') },
           },
         },
-        file_browser = {
-          mappings = {
-            ['i'] = {
-              ['<A-a>'] = fb_actions.create,
-            },
-          },
-        },
       },
       defaults = {
-        borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
+        -- borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
       },
     })
 

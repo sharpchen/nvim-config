@@ -29,9 +29,9 @@ return {
 
     vim.keymap.set('n', 'zR', require('ufo').openAllFolds, { desc = 'unfold all levels' })
     vim.keymap.set('n', 'zM', require('ufo').closeAllFolds, { desc = 'fold all levels' })
-    local lsp_zero = require('lsp-zero')
+    -- local lsp_zero = require('lsp-zero')
 
-    lsp_zero.on_attach(function(_, bufnr)
+    --[[ lsp_zero.on_attach(function(_, bufnr)
       lsp_zero.default_keymaps({ buffer = bufnr })
     end)
 
@@ -44,6 +44,6 @@ return {
           },
         },
       },
-    })
+    }) ]]
   end,
 }

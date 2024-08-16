@@ -44,11 +44,12 @@ return {
           return
         end
         local ori_cs = type(cs) == 'string' and cs or cs[1]
-        vim.notify(('Current comment string: %s\nCurrent lang: %s'):format(vim.inspect(cs), lang))
+        -- vim.notify(('Current comment string: %s\nCurrent lang: %s'):format(vim.inspect(cs), lang))
         local pos = ori_cs:find('%%s')
         local sub = pos and ori_cs:sub(1, pos - 1) .. ' ' .. suffix .. ori_cs:sub(pos) or ori_cs .. suffix
         require('Comment.ft').set(lang, sub)
         require('Comment.api').insert.linewise.eol()
+        vim.api.nvim_feedkeys(esc, 'x', false)
         require('Comment.ft').set(lang, cs)
       end
     end
@@ -58,5 +59,24 @@ return {
     vim.keymap.set('n', 'gvf', comment_eol('[!code focus]'), { desc = '[!code focus]' })
     vim.keymap.set('n', 'gvw', comment_eol('[!code warning]'), { desc = '[!code warning]' })
     vim.keymap.set('n', 'gve', comment_eol('[!code error]'), { desc = '[!code error]' })
+
+    ---@param action fun()
+    local function foreach_line(action)
+      return function()
+        local start_line = vim.fn.line('v')
+        local end_line = vim.fn.line('.')
+        vim.api.nvim_feedkeys(esc, 'x', false)
+        for i = math.min(start_line, end_line), math.max(start_line, end_line) do
+          vim.cmd(tostring(i))
+          action()
+        end
+      end
+    end
+    vim.keymap.set('x', 'vva', foreach_line(comment_eol('[!code ++]')), { desc = '[!code ++]' })
+    vim.keymap.set('x', 'vvd', foreach_line(comment_eol('[!code --]')), { desc = '[!code --]' })
+    vim.keymap.set('x', 'vvh', foreach_line(comment_eol('[!code highlight]')), { desc = '[!code highlight]' })
+    vim.keymap.set('x', 'vvf', foreach_line(comment_eol('[!code focus]')), { desc = '[!code focus]' })
+    vim.keymap.set('x', 'vvw', foreach_line(comment_eol('[!code warning]')), { desc = '[!code warning]' })
+    vim.keymap.set('x', 'vve', foreach_line(comment_eol('[!code error]')), { desc = '[!code error]' })
   end,
 }

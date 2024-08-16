@@ -1,4 +1,5 @@
-vim.cmd('colo Eva-Dark')
+local colo = { 'Eva-Dark', 'Eva-Light' }
+vim.cmd(('colo %s'):format(colo[math.random(1, #colo)]))
 
 -- line number
 vim.opt.nu = true
@@ -59,14 +60,14 @@ vim.diagnostic.config({
   },
   update_in_insert = true,
   underline = true,
-  float = { border = 'single' },
+  float = { border = 'rounded' },
 })
 vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
-  border = 'single',
+  border = 'rounded',
 })
 
 vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-  border = 'single',
+  border = 'rounded',
 })
 
 vim.api.nvim_create_autocmd('VimEnter', {
@@ -108,9 +109,3 @@ vim.filetype.add({
     xaml = 'xaml',
   },
 })
-
-vim.keymap.set('n', '<leader>l', function()
-  local curline = vim.fn.line('.')
-  local lang = vim.treesitter.get_parser():language_for_range({ curline, 0, curline, 0 }):lang()
-  vim.notify(lang)
-end)
