@@ -10,11 +10,11 @@ return {
         typescript = { 'prettier' },
         sh = { 'shfmt' },
       },
-      format_on_save = {
+      --[[ format_on_save = {
         -- These options will be passed to conform.format()
         timeout_ms = 500,
         lsp_format = 'fallback',
-      },
+      }, ]]
     })
     -- if has any tool for current file, use the tool, esle use lsp to format
     vim.keymap.set('n', '<leader>k', function()

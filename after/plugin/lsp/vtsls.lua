@@ -1,6 +1,6 @@
 -- require('lspconfig.configs').vtsls = require('vtsls').lspconfig.default_config
 
-require('lspconfig').vtsls.setup({
+--[[ require('lspconfig').vtsls.setup({
   settings = {
     typescript = {
       inlayHints = {
@@ -19,8 +19,8 @@ require('lspconfig').vtsls.setup({
     },
   },
 })
-
-vim.lsp.commands['editor.action.showReferences'] = function(command, ctx)
+]]
+--[[ vim.lsp.commands['editor.action.showReferences'] = function(command, ctx)
   local locations = command.arguments[3]
   local client = vim.lsp.get_client_by_id(ctx.client_id)
   if locations and #locations > 0 then
@@ -28,4 +28,4 @@ vim.lsp.commands['editor.action.showReferences'] = function(command, ctx)
     vim.fn.setloclist(0, {}, ' ', { title = 'References', items = items, context = ctx })
     vim.api.nvim_command('lopen')
   end
-end
+end ]]

@@ -56,6 +56,7 @@ local ViMode = {
       i = 'INSERT',
       c = 'COMMAND',
       t = 'TERMINAL',
+      nt = 'NORTERM',
       R = 'REPLACE',
       r = 'REPLACE',
       ['\22'] = 'VBLOCK',
@@ -69,6 +70,7 @@ local ViMode = {
       V = 'vline',
       c = 'command',
       t = 'terminal',
+      nt = 'normal',
       R = 'replace',
       r = 'replace',
       ['\22'] = 'vline',
@@ -89,11 +91,11 @@ local ViMode = {
     'ModeChanged',
     pattern = '*:*',
     callback = vim.schedule_wrap(function()
+      -- vim.notify(vim.api.nvim_get_mode().mode)
       vim.cmd('redrawstatus')
     end),
   },
 }
-
 local FileInfo = {
   init = file_init,
   {
@@ -161,6 +163,12 @@ local Diagnostic = {
     self.hint_count = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.HINT })
     self.info_count = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.INFO })
   end,
+  on_click = {
+    callback = function()
+      vim.cmd('Telescope diagnostics')
+    end,
+    name = 'heirline_diagnostics',
+  },
   update = { 'DiagnosticChanged', 'BufEnter' },
   {
     provider = function(self)
@@ -192,6 +200,14 @@ local Diagnostic = {
 local LSPActive = {
   condition = conditions.lsp_attached,
   update = { 'LspAttach', 'LspDetach', 'BufEnter' },
+  on_click = {
+    callback = function()
+      vim.defer_fn(function()
+        vim.cmd('LspInfo')
+      end, 100)
+    end,
+    name = 'heirline_LSP',
+  },
   init = function(self)
     self.names = {}
     for _, server in pairs(vim.lsp.get_clients({ bufnr = 0 })) do

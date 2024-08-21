@@ -1,20 +1,13 @@
 return {
   'nvim-treesitter/nvim-treesitter',
+  dependencies = {
+    'nvim-treesitter/nvim-treesitter-textobjects',
+  },
   build = ':TSUpdate',
   config = function()
     local configs = require('nvim-treesitter.configs')
-
+    require('nvim-treesitter.install').prefer_git = true
     local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
-    parser_config.powershell = {
-      install_info = {
-        url = 'https://github.com/airbus-cert/tree-sitter-powershell/',
-        files = { 'src/parser.c', 'src/scanner.c' },
-        branch = 'main',
-        generate_requires_npm = false,
-        requires_generate_from_grammar = false,
-      },
-      filetype = 'ps1',
-    }
     parser_config.fsharp = {
       install_info = {
         url = 'https://github.com/ionide/tree-sitter-fsharp',
@@ -24,21 +17,12 @@ return {
       requires_generate_from_grammar = false,
       filetype = 'fsharp',
     }
-    --[[ parser_config.csharp = {
-      install_info = {
-        url = 'https://github.com/tree-sitter/tree-sitter-c-sharp',
-        branch = 'master',
-        files = { 'src/scanner.c', 'src/parser.c' },
-      },
-      requires_generate_from_grammar = false,
-      filetype = 'cs',
-    } ]]
     vim.treesitter.language.register('xml', { 'axaml', 'xaml' })
-
     configs.setup({
       ensure_installed = {
         'c',
         'cpp',
+        'c_sharp',
         'css',
         'scss',
         'asm',
@@ -62,6 +46,7 @@ return {
         'haskell',
         'sql',
         'python',
+        'powershell',
         'csv',
         'vue',
         'dockerfile',
@@ -81,6 +66,37 @@ return {
       sync_install = false,
       highlight = { enable = true, additional_vim_regex_highlighting = true },
       indent = { enable = true },
+      incremental_selection = {
+        enable = true,
+        keymaps = {
+          init_selection = 'gnn', -- set to `false` to disable one of the mappings
+          node_incremental = 'grn',
+          scope_incremental = 'grc',
+          node_decremental = 'grm',
+        },
+      },
+      textobjects = {
+        select = {
+          enable = true,
+          lookahead = true,
+          keymaps = {
+            ['af'] = '@function.outer',
+            ['if'] = '@function.inner',
+            ['ac'] = '@class.outer',
+            -- You can optionally set descriptions to the mappings (used in the desc parameter of
+            -- nvim_buf_set_keymap) which plugins like which-key display
+            ['ic'] = { query = '@class.inner', desc = 'Select inner part of a class region' },
+            -- You can also use captures from other query groups like `locals.scm`
+            ['as'] = { query = '@scope', query_group = 'locals', desc = 'Select language scope' },
+          },
+          selection_modes = {
+            ['@parameter.outer'] = 'v', -- charwise
+            ['@function.outer'] = 'V', -- linewise
+            ['@class.outer'] = '<c-v>', -- blockwise
+          },
+          include_surrounding_whitespace = true,
+        },
+      },
     })
   end,
 }

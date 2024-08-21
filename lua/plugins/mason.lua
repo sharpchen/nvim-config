@@ -27,6 +27,11 @@ return {
             capabilities = lsp_capabilities,
             settings = {
               Lua = {
+                hint = {
+                  enable = true,
+                  paramName = 'Literal',
+                  semicolon = 'Disable',
+                },
                 runtime = {
                   version = 'LuaJIT',
                 },
@@ -60,6 +65,22 @@ return {
         biome = function()
           require('lspconfig').biome.setup({
             capabilities = lsp_capabilities,
+          })
+        end,
+        vtsls = function()
+          require('lspconfig').vtsls.setup({
+            settings = {
+              typescript = {
+                inlayHints = {
+                  parameterNames = { enabled = 'literal' },
+                  parameterTypes = { enabled = true },
+                  variableTypes = { enabled = true },
+                  propertyDeclarationTypes = { enabled = true },
+                  functionLikeReturnTypes = { enabled = true },
+                  enumMemberValues = { enabled = true },
+                },
+              },
+            },
           })
         end,
       },
@@ -120,5 +141,9 @@ return {
       local hl = 'DiagnosticSign' .. type
       vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
     end
+    vim.api.nvim_create_user_command('InlayHintToggle', function()
+      vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }))
+    end, {})
+    vim.keymap.set('n', '<leader><leader>i', '<cmd>InlayHintToggle<CR>')
   end,
 }
