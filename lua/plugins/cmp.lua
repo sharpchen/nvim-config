@@ -177,9 +177,11 @@ local function regular_setup()
 end
 
 return {
-  'hrsh7th/nvim-cmp',
+  --[[ 'hrsh7th/nvim-cmp',
+  branch = 'main', ]]
+  'yioneko/nvim-cmp',
+  branch = 'perf',
   version = false,
-  branch = 'main',
   dependencies = {
     'hrsh7th/cmp-nvim-lsp',
     'hrsh7th/cmp-buffer',

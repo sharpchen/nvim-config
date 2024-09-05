@@ -19,7 +19,6 @@ return {
     },
   },
   'onsails/lspkind.nvim',
-  'NvChad/nvim-colorizer.lua',
   {
     'utilyre/barbecue.nvim',
     name = 'barbecue',
@@ -29,6 +28,28 @@ return {
     },
     opts = {},
   },
-  'DaikyXendo/nvim-material-icon',
+  {
+    'DaikyXendo/nvim-material-icon',
+    config = function()
+      require('nvim-web-devicons').setup({
+        override_by_extension = {
+          ['c++'] = {
+            icon = '',
+            color = '#0188d1',
+            cterm_color = '32',
+            name = 'cjj',
+          },
+          ['h++'] = {
+            icon = '',
+            color = '#0188d1',
+            cterm_color = '32',
+            name = 'hjj',
+          },
+        },
+      })
+    end,
+  },
   'rebelot/heirline.nvim',
+  'ThePrimeagen/vim-be-good',
+  'LunarVim/bigfile.nvim',
 }

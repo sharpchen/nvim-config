@@ -59,4 +59,4 @@ vim.keymap.set('n', '/', ':set ignorecase<CR>/', { desc = 'case insensitive sear
 -- vim.keymap.set('n', '<leader>ca', ':lua vim.lsp.buf.code_action()<CR>', { desc = 'show code action' })
 vim.keymap.set('n', '<leader>a', 'ggVG', { desc = 'select all text' })
 vim.keymap.set('n', '<leader>x', 'Vx', { desc = 'cut current line' })
-vim.keymap.set('n', 'I', '<cmd>Inspect<CR>', { desc = 'Inspect' })
+vim.keymap.set('n', '<leader>i', '<cmd>Inspect<CR>', { desc = 'Inspect' })

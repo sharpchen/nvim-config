@@ -62,6 +62,10 @@ local ViMode = {
       ['\22'] = 'VBLOCK',
       ['\22s'] = 'VBLOCK',
       s = 'SELECT',
+      niI = 'NiI',
+      niR = 'NiR',
+      niV = 'NiV',
+      ntT = 'NtT',
     },
     mode_colors = {
       n = 'normal',
@@ -78,6 +82,10 @@ local ViMode = {
       -- S = 'purple',
       -- ['\19'] = 'purple',
       ['!'] = 'normal',
+      niI = 'NiI',
+      niR = 'normal',
+      niV = 'normal',
+      ntT = 'normal',
     },
   },
   provider = function(self)
@@ -103,12 +111,14 @@ local FileInfo = {
       return vim.bo.modified
     end,
     provider = '  ',
+    hl = { fg = utils.get_highlight('Number').fg, bg = 'statusline' },
   },
   {
     condition = function()
       return not vim.bo.modifiable or vim.bo.readonly
     end,
     provider = '  ',
+    hl = { fg = utils.get_highlight('Number').fg, bg = 'statusline' },
   },
   { -- filename
     provider = function(self)

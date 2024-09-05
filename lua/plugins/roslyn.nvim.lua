@@ -1,12 +1,17 @@
 return {
   'seblj/roslyn.nvim',
   config = function()
+    local util = require('lspconfig.util')
     require('roslyn').setup({
       exe = {
         'dotnet',
         vim.fs.joinpath(vim.fn.stdpath('data') --[[@as string]], 'roslyn', 'Microsoft.CodeAnalysis.LanguageServer.dll'),
       },
       config = {
+        --[[ capabilities = require('cmp_nvim_lsp').default_capabilities(),
+        root_dir = function(fname)
+          return util.root_pattern('*.sln')(fname) or util.root_pattern('*.csproj')(fname)
+        end, ]]
         settings = {
           ['csharp|inlay_hints'] = {
             csharp_enable_inlay_hints_for_implicit_object_creation = true,

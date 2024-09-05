@@ -1,4 +1,5 @@
 return {
+  enabled = false,
   'romgrk/barbar.nvim',
   dependencies = {
     'lewis6991/gitsigns.nvim', -- OPTIONAL: for git status

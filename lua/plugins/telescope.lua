@@ -11,6 +11,9 @@ return {
         ['ui-select'] = {
           require('telescope.themes').get_cursor({}),
         },
+        file_browser = {
+          hidden = { file_browser = true, folder_browser = false },
+        },
         zoxide = {
           prompt_title = '[ Walking on the shoulders of TJ ]',
           mappings = {
@@ -42,7 +45,7 @@ return {
 
     local builtin = require('telescope.builtin')
     vim.keymap.set('n', '<leader>ff', function()
-      builtin.find_files({ cwd = vim.uv.cwd() })
+      builtin.find_files({ cwd = vim.uv.cwd(), hidden = true })
     end, { desc = 'find in all files in project' })
     vim.keymap.set('n', '<leader>fpf', builtin.git_files, { desc = 'find in all tracked files' })
     vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'find in content' })

@@ -83,6 +83,17 @@ return {
             },
           })
         end,
+        harper_ls = function()
+          require('lspconfig').harper_ls.setup({
+            settings = {
+              ['harper_ls'] = {
+                linters = {
+                  sentence_capitalization = false,
+                },
+              },
+            },
+          })
+        end,
       },
     })
     require('lspconfig').nixd.setup({
@@ -113,7 +124,7 @@ return {
       },
     })
 
-    vim.keymap.set('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<CR>')
+    -- vim.keymap.set('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<CR>')
     vim.api.nvim_create_autocmd('LspAttach', {
       desc = 'LSP actions',
       callback = function(event)
@@ -128,7 +139,7 @@ return {
         vim.keymap.set('n', 'gr', '<cmd>Telescope lsp_references<CR>', opts)
         vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
         vim.keymap.set('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
-        vim.keymap.set({ 'n', 'x' }, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
+        -- vim.keymap.set({ 'n', 'x' }, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
         vim.keymap.set('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
       end,
     })
@@ -141,9 +152,8 @@ return {
       local hl = 'DiagnosticSign' .. type
       vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
     end
-    vim.api.nvim_create_user_command('InlayHintToggle', function()
+    vim.keymap.set('n', '<leader><leader>i', function()
       vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }))
-    end, {})
-    vim.keymap.set('n', '<leader><leader>i', '<cmd>InlayHintToggle<CR>')
+    end)
   end,
 }
