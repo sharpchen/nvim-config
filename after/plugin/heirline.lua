@@ -111,14 +111,14 @@ local FileInfo = {
       return vim.bo.modified
     end,
     provider = '  ',
-    hl = { fg = utils.get_highlight('Number').fg, bg = 'statusline' },
+    hl = { fg = 'command', bg = 'statusline' },
   },
   {
     condition = function()
       return not vim.bo.modifiable or vim.bo.readonly
     end,
     provider = '  ',
-    hl = { fg = utils.get_highlight('Number').fg, bg = 'statusline' },
+    hl = { fg = 'command', bg = 'statusline' },
   },
   { -- filename
     provider = function(self)

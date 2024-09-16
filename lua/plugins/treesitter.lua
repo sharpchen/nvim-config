@@ -69,10 +69,10 @@ return {
       incremental_selection = {
         enable = true,
         keymaps = {
-          init_selection = 'gnn', -- set to `false` to disable one of the mappings
-          node_incremental = 'grn',
-          scope_incremental = 'grc',
-          node_decremental = 'grm',
+          init_selection = 'tnn', -- set to `false` to disable one of the mappints
+          node_incremental = 'trn',
+          scope_incremental = 'trc',
+          node_decremental = 'trm',
         },
       },
       textobjects = {

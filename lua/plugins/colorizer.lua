@@ -10,7 +10,7 @@ return {
         css = true,
         css_fn = true,
         mode = 'virtualtext',
-        virtualtext = '󱓻',
+        virtualtext = '●',
         virtualtext_inline = true,
         tailwind = 'both',
         always_update = true,

@@ -20,7 +20,7 @@ vim.keymap.set('i', '<M-k>', '<Esc>:m .-2<CR>==gi', { silent = true })
 vim.keymap.set('i', '<M-Down>', '<Esc>:m .+1<CR>==gi', { silent = true })
 vim.keymap.set('i', '<M-Up>', '<Esc>:m .-2<CR>==gi', { silent = true })
 
-vim.keymap.set('n', 'J', 'mzJ`z')
+vim.keymap.set('n', 'J', 'mzJ`z', { desc = 'join next line with still cursor' })
 
 -- jump half page up/down
 vim.keymap.set('n', '<C-u>', '<C-u>zz')
@@ -60,3 +60,20 @@ vim.keymap.set('n', '/', ':set ignorecase<CR>/', { desc = 'case insensitive sear
 vim.keymap.set('n', '<leader>a', 'ggVG', { desc = 'select all text' })
 vim.keymap.set('n', '<leader>x', 'Vx', { desc = 'cut current line' })
 vim.keymap.set('n', '<leader>i', '<cmd>Inspect<CR>', { desc = 'Inspect' })
+
+vim.keymap.set('n', '<A-c>', '<cmd>bd<CR>', { desc = 'close current buffer' })
+vim.keymap.set('n', '<A-,>', '<cmd>bp<CR>', { desc = 'move to previous buffer' })
+vim.keymap.set('n', '<A-.>', '<cmd>bn<CR>', { desc = 'move to next buffer' })
+vim.keymap.set('n', '<A-a>', '<cmd>bufdo bd<CR>', { desc = 'close all buffers' })
+
+vim.keymap.set('n', '0', '^', { noremap = true, silent = true })
+vim.keymap.set('n', '^', '0', { noremap = true, silent = true })
+
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'qf',
+  callback = function(event)
+    local opts = { buffer = event.buf, silent = true }
+    vim.keymap.set('n', '<C-n>', '<cmd>cn | wincmd p<CR>', opts)
+    vim.keymap.set('n', '<C-p>', '<cmd>cN | wincmd p<CR>', opts)
+  end,
+})

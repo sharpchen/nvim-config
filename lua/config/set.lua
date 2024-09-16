@@ -110,7 +110,7 @@ vim.filetype.add({
   },
 })
 
-vim.keymap.set('n', '<A-c>', '<cmd>bd<CR>', { desc = 'close current buffer' })
-vim.keymap.set('n', '<A-,>', '<cmd>bp<CR>', { desc = 'move to previous buffer' })
-vim.keymap.set('n', '<A-.>', '<cmd>bn<CR>', { desc = 'move to next buffer' })
-vim.keymap.set('n', '<A-a>', '<cmd>bufdo bd<CR>', { desc = 'close all buffers' })
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'help', 'man' },
+  command = 'wincmd H',
+})

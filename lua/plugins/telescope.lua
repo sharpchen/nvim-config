@@ -45,13 +45,37 @@ return {
 
     local builtin = require('telescope.builtin')
     vim.keymap.set('n', '<leader>ff', function()
-      builtin.find_files({ cwd = vim.uv.cwd(), hidden = true })
+      builtin.find_files({
+        cwd = vim.uv.cwd(),
+        hidden = true,
+        layout_config = {
+          preview_width = 0.5,
+          width = 0.95,
+        },
+      })
     end, { desc = 'find in all files in project' })
-    vim.keymap.set('n', '<leader>fpf', builtin.git_files, { desc = 'find in all tracked files' })
-    vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'find in content' })
+    vim.keymap.set('n', '<leader>fpf', function()
+      builtin.git_files({
+        layout_config = {
+          preview_width = 0.5,
+          width = 0.95,
+        },
+      })
+    end, { desc = 'find in all tracked files' })
+
+    vim.keymap.set('n', '<leader>fg', function()
+      builtin.live_grep({ layout_config = { preview_width = 0.5, width = 0.95 } })
+    end, { desc = 'find in content' })
+
     vim.keymap.set('n', '<leader>fc', function()
-      local config = vim.uv.os_uname().sysname == 'Windows_NT' and '~/AppData/Local/nvim' or '~/.config/nvim'
-      builtin.find_files({ cwd = config })
+      local config_path = vim.uv.os_uname().sysname == 'Windows_NT' and '~/AppData/Local/nvim' or '~/.config/nvim'
+      builtin.find_files({
+        cwd = config_path,
+        layout_config = {
+          preview_width = 0.5,
+          width = 0.95,
+        },
+      })
     end, { desc = 'find nvim config file' })
   end,
 }
