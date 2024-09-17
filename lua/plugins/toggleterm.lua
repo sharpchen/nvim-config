@@ -43,6 +43,9 @@ return {
         end
       end
       bufTerm:toggle()
+      if vim.fn.mode() == 'n' and vim.o.filetype == 'toggleterm' then
+        vim.cmd('execute "normal! i"')
+      end
     end)
     vim.api.nvim_create_autocmd({ 'TermEnter' }, {
       callback = function()
