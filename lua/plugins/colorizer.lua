@@ -3,6 +3,11 @@ return {
   config = function()
     local foo = '#ca8aca'
     require('colorizer').setup({
+      filetypes = {
+        '*',
+        '!lazy',
+        '!cmp_menu',
+      },
       user_default_options = {
         names = false,
         rgb_fn = true,

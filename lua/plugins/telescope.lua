@@ -13,6 +13,10 @@ return {
         },
         file_browser = {
           hidden = { file_browser = true, folder_browser = false },
+          layout_config = {
+            preview_width = 0.5,
+            width = 0.95,
+          },
         },
         zoxide = {
           prompt_title = '[ Walking on the shoulders of TJ ]',

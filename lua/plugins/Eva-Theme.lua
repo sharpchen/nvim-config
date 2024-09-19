@@ -3,16 +3,18 @@ return {
   lazy = false,
   priority = 1000,
   config = function()
+    local light = require('Eva-Theme.palette').light_base
+    local dark = require('Eva-Theme.palette').dark_base
     require('Eva-Theme').setup({
       override_palette = {
         dark = {
-          operator = require('Eva-Theme.palette').dark_base.punctuation,
+          operator = dark.punctuation,
           -- background = '#14161B',
-          typeparam = require('Eva-Theme.palette').dark_base.type,
+          typeparam = dark.type,
         },
         light = {
-          operator = require('Eva-Theme.palette').light_base.punctuation,
-          typeparam = require('Eva-Theme.palette').light_base.type,
+          operator = light.punctuation,
+          typeparam = light.type,
         },
       },
       override_highlight = {
