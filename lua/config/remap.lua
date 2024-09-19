@@ -66,11 +66,37 @@ vim.keymap.set('n', '<A-a>', '<cmd>bufdo bd<CR>', { desc = 'close all buffers' }
 
 vim.keymap.set('n', '0', '^', { noremap = true, silent = true })
 vim.keymap.set('n', '^', '0', { noremap = true, silent = true })
+vim.keymap.set('n', 'gh', '<cmd>norm! 0<CR>', { noremap = true, silent = true, desc = 'go to start of line' })
+vim.keymap.set('n', 'gl', '<cmd>norm! $<CR>', { noremap = true, silent = true, desc = 'go to end of line' })
+vim.keymap.set('n', 'gp', '<cmd>bp<CR>', { noremap = true, silent = true, desc = 'go to prev buffer' })
+vim.keymap.set('n', 'gn', '<cmd>bn<CR>', { noremap = true, silent = true, desc = 'go to next buffer' })
 
 if vim.uv.os_uname().sysname == 'Linux' then
-  vim.keymap.set('n', '<leader>x', '<cmd>!chmod +x %<CR>', { silent = true })
+  vim.keymap.set('n', '<leader>x', '<cmd>!chmod +x %<CR>', { silent = true, desc = 'make current file executable' })
 end
 
+vim.api.nvim_create_autocmd('LspAttach', {
+  desc = 'LSP actions',
+  callback = function(event)
+    local opts = { buffer = event.buf, silent = true }
+    -- these will be buffer-local keybindings
+    -- because they only work if you have an active language server
+    -- vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
+    vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
+    vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
+    -- gi was a builtin keymap, not using go to implementation now
+    -- vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
+    vim.keymap.set('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts)
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+    vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
+    vim.keymap.set('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
+    -- vim.keymap.set({ 'n', 'x' }, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
+    vim.keymap.set('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
+  end,
+})
+vim.keymap.set('n', '<leader><leader>i', function()
+  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }))
+end)
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'qf',
   callback = function(event)
@@ -94,7 +120,7 @@ vim.api.nvim_create_autocmd('FileType', {
             )
           or 'cn'
       )
-      vim.cmd('execute "normal! zz"')
+      vim.cmd('normal! zz')
       if vim.bo.filetype ~= 'qf' then
         vim.cmd('wincmd p')
       end
@@ -118,7 +144,7 @@ vim.api.nvim_create_autocmd('FileType', {
             )
           or 'cN'
       )
-      vim.cmd('execute "normal! zz"')
+      vim.cmd('normal! zz')
       if vim.bo.filetype ~= 'qf' then
         vim.cmd('wincmd p')
       end

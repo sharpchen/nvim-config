@@ -6,37 +6,39 @@ return {
   init = false,
   opts = function()
     local dashboard = require('alpha.themes.dashboard')
+    local random_color = { 'Keyword', 'Number', 'Type', '@type.builtin', 'String', '@variable.parameter' }
+    local color = random_color[math.random(1, #random_color)]
     dashboard.section.header.type = 'group'
     dashboard.section.header.val = {
       {
         type = 'text',
         val = '   ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ',
-        opts = { hl = 'Keyword', shrink_margin = false, position = 'center' },
+        opts = { hl = color, shrink_margin = false, position = 'center' },
       },
       {
         type = 'text',
         val = '   ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ',
-        opts = { hl = 'Keyword', shrink_margin = false, position = 'center' },
+        opts = { hl = color, shrink_margin = false, position = 'center' },
       },
       {
         type = 'text',
         val = '   ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ',
-        opts = { hl = 'Keyword', shrink_margin = false, position = 'center' },
+        opts = { hl = color, shrink_margin = false, position = 'center' },
       },
       {
         type = 'text',
         val = '   ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ',
-        opts = { hl = 'Keyword', shrink_margin = false, position = 'center' },
+        opts = { hl = color, shrink_margin = false, position = 'center' },
       },
       {
         type = 'text',
         val = '   ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ',
-        opts = { hl = 'Keyword', shrink_margin = false, position = 'center' },
+        opts = { hl = color, shrink_margin = false, position = 'center' },
       },
       {
         type = 'text',
         val = '   ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ',
-        opts = { hl = 'Keyword', shrink_margin = false, position = 'center' },
+        opts = { hl = color, shrink_margin = false, position = 'center' },
       },
       {
         type = 'padding',
@@ -45,7 +47,7 @@ return {
       {
         type = 'text',
         val = 'Hello :)',
-        opts = { hl = 'Keyword', shrink_margin = false, position = 'center' },
+        opts = { hl = color, shrink_margin = false, position = 'center' },
       },
     }
     -- stylua: ignore
@@ -65,11 +67,11 @@ return {
     vim.api.nvim_set_hl(0, 'AlphaFooter', { fg = '#edd691' })
 
     for _, button in ipairs(dashboard.section.buttons.val) do
-      button.opts.hl = 'Keyword'
+      button.opts.hl = color
       button.opts.hl_shortcut = 'String'
     end
     dashboard.section.header.opts.hl = 'AlphaHeader'
-    dashboard.section.buttons.opts.hl = 'Keyword'
+    dashboard.section.buttons.opts.hl = color
     dashboard.section.footer.opts.hl = 'Parameter'
     dashboard.opts.layout[1].val = 3
     return dashboard

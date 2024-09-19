@@ -32,6 +32,16 @@ vim.opt.guicursor =
   'n-v-sm:block-blinkwait700-blinkoff400-blinkon250-Cursor,ci-ve:ver25,r-cr-o:hor20,i-c:ver100-blinkwait700-blinkoff400-blinkon250-Cursor/lCursor'
 -- vim.opt.colorcolumn = '80'
 
+for type, icon in pairs({
+  Error = '',
+  Warn = '',
+  Hint = '',
+  Info = '',
+}) do
+  local hl = 'DiagnosticSign' .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
+
 -- render listchars on colorcolumn loaded
 vim.opt.showmode = false
 local listchars = [[nbsp:␣,eol:↵,space:·,tab:» ]]
