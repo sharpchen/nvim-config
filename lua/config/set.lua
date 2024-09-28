@@ -10,7 +10,7 @@ vim.opt.rnu = true
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
-vim.opt.expandtab = true
+vim.opt.expandtab = true -- use space as indentation
 vim.opt.smartindent = true
 
 vim.opt.wrap = false
@@ -20,7 +20,7 @@ vim.opt.backup = false
 -- vim.opt.undodir = os.getenv('HOME') .. '/.vim/undodir'
 vim.opt.undofile = true
 
-vim.opt.hlsearch = false
+vim.opt.hlsearch = false -- disable search result highlight
 vim.opt.incsearch = true
 
 vim.opt.termguicolors = true
@@ -104,7 +104,7 @@ vim.api.nvim_create_autocmd('VimEnter', {
   end,
 })
 
-vim.api.nvim_create_autocmd('BufEnter', {
+vim.api.nvim_create_autocmd('FileType', {
   pattern = '*',
   callback = function()
     vim.opt_local.formatoptions:remove('c')
@@ -122,23 +122,5 @@ vim.filetype.add({
 
 vim.api.nvim_create_autocmd('FileType', {
   pattern = { 'help', 'man' },
-  command = 'wincmd H',
-})
-
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'json',
-  callback = function()
-    -- Scan the file to find comments outside of strings
-    local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-    for _, line in ipairs(lines) do
-      -- Remove everything within quotes (basic handling of strings)
-      local without_string = line:gsub('".-"', '')
-      -- Check for line or block comments
-      if without_string:match('%/%/') or without_string:match('%/%*') then
-        vim.bo.filetype = 'jsonc'
-        break
-      end
-    end
-  end,
-  desc = 'detect JSONC',
+  command = 'only',
 })

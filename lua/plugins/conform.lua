@@ -10,25 +10,20 @@ return {
         typescript = { 'prettier' },
         sh = { 'shfmt' },
       },
-      -- format_on_save = {
-      --   -- These options will be passed to conform.format()
-      --   timeout_ms = 500,
-      --   lsp_format = 'fallback',
-      -- },
     })
 
     local function format(bufnr)
       local conform = require('conform')
       local formatter = conform.formatters[vim.bo.filetype] or conform.formatters_by_ft[vim.bo.filetype]
       if formatter then
-        conform.format({ bufnr = bufnr, timeout_ms = 2000 })
+        conform.format({ bufnr = bufnr, timeout_ms = 2000, async = false })
         vim.notify(
           string.format('formmatted by formatter: %s', type(formatter) == 'function' and formatter()[1] or formatter[1])
         )
       else
-        vim.lsp.buf.format({ async = false, timeout_ms = 2000 })
+        vim.lsp.buf.format({ async = false, timeout_ms = 2000, bufnr = bufnr })
         local names = {}
-        for _, server in pairs(vim.lsp.get_active_clients({ bufnr = bufnr })) do
+        for _, server in pairs(vim.lsp.get_clients({ bufnr = bufnr })) do
           table.insert(names, server.name)
         end
         vim.notify(string.format('formmatted by lsp: %s', table.concat(names, ',')))
@@ -47,6 +42,9 @@ return {
     end
 
     vim.api.nvim_create_user_command('W', function()
+      if vim.fn.exists(':W') == 1 then
+        vim.cmd('delcommand W')
+      end
       vim.api.nvim_clear_autocmds({ group = augroup_id })
       vim.cmd('w')
       add_format_event()
@@ -55,7 +53,7 @@ return {
     add_format_event()
 
     vim.keymap.set('n', '<leader>k', function()
-      format(0)
+      format(vim.fn.bufnr('%'))
     end, { desc = 'format current file' })
   end,
 }

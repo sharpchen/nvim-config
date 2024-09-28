@@ -94,6 +94,11 @@ return {
             },
           })
         end,
+        lemminx = function()
+          require('lspconfig').lemminx.setup({
+            filetypes = { 'xml', 'axaml' },
+          })
+        end,
       },
     })
     require('lspconfig').nixd.setup({

@@ -64,12 +64,28 @@ vim.keymap.set('n', '<A-,>', '<cmd>bp<CR>', { desc = 'move to previous buffer' }
 vim.keymap.set('n', '<A-.>', '<cmd>bn<CR>', { desc = 'move to next buffer' })
 vim.keymap.set('n', '<A-a>', '<cmd>bufdo bd<CR>', { desc = 'close all buffers' })
 
-vim.keymap.set('n', '0', '^', { noremap = true, silent = true })
-vim.keymap.set('n', '^', '0', { noremap = true, silent = true })
+vim.keymap.set('n', '0', '^', { noremap = true, silent = true, desc = 'go to start of line' })
+vim.keymap.set('n', '^', '0', { noremap = true, silent = true, desc = 'go to first word bound of line' })
 vim.keymap.set('n', 'gh', '<cmd>norm! 0<CR>', { noremap = true, silent = true, desc = 'go to start of line' })
 vim.keymap.set('n', 'gl', '<cmd>norm! $<CR>', { noremap = true, silent = true, desc = 'go to end of line' })
-vim.keymap.set('n', 'gp', '<cmd>bp<CR>', { noremap = true, silent = true, desc = 'go to prev buffer' })
+-- vim.keymap.set('n', 'gp', '<cmd>bp<CR>', { noremap = true, silent = true, desc = 'go to prev buffer' })
 vim.keymap.set('n', 'gn', '<cmd>bn<CR>', { noremap = true, silent = true, desc = 'go to next buffer' })
+vim.iter({ { '(', ')' }, { '<', '>' }, { '[', ']' }, '`', '"', "'", '*' }):each(function(x)
+  if #x > 1 then
+    vim.keymap.set(
+      'n',
+      ('<leader>[%s'):format(x[1]),
+      ('viw<esc>a%s<esc>bi%s<esc>'):format(x[2], x[1]),
+      { desc = ('surround word with %s%s'):format(x[1], x[2]) }
+    )
+  end
+  vim.keymap.set(
+    'n',
+    ('<leader>[%s'):format(x),
+    ('viw<esc>a%s<esc>bi%s<esc>'):format(x, x),
+    { desc = ('surround word with %s'):format(x) }
+  )
+end)
 
 if vim.uv.os_uname().sysname == 'Linux' then
   vim.keymap.set('n', '<leader>x', '<cmd>!chmod +x %<CR>', { silent = true, desc = 'make current file executable' })
@@ -96,7 +112,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 vim.keymap.set('n', '<leader><leader>i', function()
   vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }))
-end)
+end, { desc = 'toggle inlay hint' })
+
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'qf',
   callback = function(event)
